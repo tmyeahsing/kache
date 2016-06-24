@@ -1,0 +1,17 @@
+/*
+ * Author: 
+ * Version: 0.1.0
+ * Compile Date: 2016-06-24 18:01
+*/ 
+@import "../../base/fn";
+
+.weui_btn_primary {
+    background-color: @weuiBtnPrimaryBg;
+    &:not(.weui_btn_disabled):visited {
+        color: @weuiBtnFontColor;
+    }
+    &:not(.weui_btn_disabled):active {
+        color: @weuiBtnActiveFontColor;
+        background-color: @weuiBtnPrimaryActiveBg;
+    }
+}

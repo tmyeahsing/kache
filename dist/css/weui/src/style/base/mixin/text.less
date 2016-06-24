@@ -1,0 +1,24 @@
+/*
+ * Author: 
+ * Version: 0.1.0
+ * Compile Date: 2016-06-24 18:01
+*/ 
+.ellipsis(@w:auto) {
+    width: @w;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
+.ellipsisLn(@line) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @line;
+}
+.text_wrap() {
+    word-wrap:break-word;
+    word-break:break-all;
+}
