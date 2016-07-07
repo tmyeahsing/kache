@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>kache</title>
+</head>
+<body ontouchstart>
+<div class="g_fast_sign">
+    <div class="weui_cells_title">确定报修项：</div>
+    <div class="weui_grids">
+        <a href="javascript:;" class="weui_grid">
+            <div class="wrap">
+                <div class="weui_grid_icon">
+                    <img src="../assets/images/tire.jpg" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    开不动<br>轮胎坏了
+                </p>
+            </div>
+        </a>
+        <a href="javascript:;" class="weui_grid">
+            <div class="wrap">
+                <div class="weui_grid_icon">
+                    <img src="../assets/images/wonder.jpg" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    开不动<br>不知何故
+                </p>
+            </div>
+        </a>
+    </div>
+
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <uploader :count="uploadCount" :maxLength="uploadMaxLength" :has-input="showAddImgBtn">
+                    <template slot="title">添加故障图片</template>
+                    <template slot="uploader-files">
+                        <uploader-files>
+                            <ul>
+                                <uploader-file :image-url="item.url" v-for="item in uploadFiles" :has-status="false">
+                                </uploader-file>
+                            </ul>
+                        </uploader-files>
+                    </template>
+                </uploader>
+            </div>
+        </div>
+    </div>
+    <p>{{log}}</p>
+
+    <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary" href="javascript:">确认报修</a>
+    </div>
+</div>
+</body>
+</html>

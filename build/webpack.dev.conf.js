@@ -1,0 +1,66 @@
+var webpack = require('webpack')
+var config = require('./webpack.base.conf')
+var cssLoaders = require('./css-loaders')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+
+// eval-source-map is faster for development
+config.devtool = '#eval-source-map'
+
+config.vue = config.vue || {}
+config.vue.loaders = config.vue.loaders || {}
+cssLoaders({
+  sourceMap: false,
+  extract: false
+}).forEach(function (loader) {
+  config.vue.loaders[loader.key] = loader.value
+})
+
+//recognize non-vue scss files
+config.module.loaders.push({
+  test: /\.s[c|a]ss$/i,
+  loaders: ["style", "css", "sass"]
+})
+
+// add hot-reload related code to entry chunks
+var polyfill = 'eventsource-polyfill'
+var devClient = './build/dev-client'
+Object.keys(config.entry).forEach(function (name, i) {
+  var extras = i === 0 ? [polyfill, devClient] : [devClient]
+  config.entry[name] = extras.concat(config.entry[name])
+})
+
+// necessary for the html plugin to work properly
+// when serving the html from in-memory
+config.output.publicPath = '/'
+
+config.plugins = (config.plugins || []).concat([
+  // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoErrorsPlugin()
+]).concat(Object.keys(config.entry).filter(function(val){
+  "use strict";
+  return val !== 'common'
+}).map(function(key){
+  "use strict";
+// generate dist index.html with correct asset hash for caching.
+  // you can customize output by editing /index.html
+  // see https://github.com/ampedandwired/html-webpack-plugin
+  return new HtmlWebpackPlugin({
+    filename: key + '.html',
+    template: 'src/views/'+ key +'.html',
+    chunks: ['common', key],
+    chunksSortMode: function(a, b){
+      if(a.names[0] === 'common'){
+        return -1;
+      }else if(b.names[0] === 'common'){
+        return 1;
+      }else{
+        return a.id - b.id;
+      }
+    },
+    inject: true
+  })
+}))
+
+module.exports = config
