@@ -2,39 +2,34 @@
 <div class="weui_uploader">
   <cell class="weui_uploader_hd">
     <span slot="body"><slot name="title"></slot></span>
-    <span slot="footer" v-if="count >= 0 && maxlength > 0">{{count}}/{{maxlength}}</span>
+    <span slot="footer" v-if="count >= 0 && maxLength > 0">{{count}}/{{maxLength}}</span>
   </cell>
   <div class="weui_uploader_bd">
-    <slot name="uploader-files"></slot>
-    <div class="weui_uploader_input_wrp" v-if="hasInput">
-      <input type="file" class="weui_uploader_input" accept="image/jpg,image/jpeg,image/png,image/gif" multiple @change="dispatchChange">
+    <uploader-files>
+      <ul>
+        <uploader-file :image-url="item.url" v-for="item in uploadFiles" :has-status="false" :index="$index">
+        </uploader-file>
+      </ul>
+    </uploader-files>
+    <div class="weui_uploader_input_wrp" v-if="hasInput" v-show="showInput">
+      <input type="file" class="weui_uploader_input" accept="image/jpg,image/jpeg,image/png,image/gif" multiple @change="inputChange">
     </div>
   </div>
+  <p class="weui_uploader_full" style="display: none;" v-show="count >= maxLength ? true : false">最多上传{{maxLength}}张</p>
 </div>
 </template>
 
 <script>
 import Cell from '../cells/cell.vue';
+import UploaderFiles from '../uploader/uploader-files.vue';
+import UploaderFile from '../uploader/uploader-file.vue';
 
 export default {
   props: {
     /**
-     * 已上传文件数量
-     * 注意，Uploader并不会对真实文件数量进行控制，count仅用于显示
-     */
-    count: {
-      type: Number,
-      required: false,
-      validator: function(value) {
-        return value >= 0;
-      }
-    },
-
-    /**
      * 显示的最大可上传数量
-     * 注意，Uploader并不会对真实文件数量进行控制，maxlength仅用于显示
      */
-    maxlength: {
+    maxLength: {
       type: Number,
       required: false,
       validator: function(value) {
@@ -52,14 +47,71 @@ export default {
     }
   },
 
+  data() {
+    return {
+      uploadFiles: []
+    }
+  },
+
+  computed: {
+    count: function(){
+      return this.uploadFiles.length;
+    },
+    showInput: function(){
+      return this.uploadFiles.length >= this.maxLength ? false : true;
+    }
+  },
+
   methods: {
-    dispatchChange(event) {
-      this.$dispatch('weui-input-change', event);
+    addFilePreview: function(blobArray){
+      var _balance = this.maxLength - this.uploadFiles.length;
+      var _array = blobArray.map(function(blob){
+        return {
+          url: blob,
+          status: 0
+        }
+      });
+      this.uploadFiles = this.uploadFiles.concat(_array.splice(0, _balance));
+    },
+    inputChange(event) {
+      var _array = [];
+
+      [].forEach.call(event.currentTarget.files, function(ele, i){
+        _array.push(window.URL.createObjectURL(ele));
+      })
+
+      this.addFilePreview(_array);
+
+      event.currentTarget.value = '';
+    }
+  },
+
+  events: {
+    'weui-file-delete': function(event, index){
+      this.uploadFiles.splice(index, 1);
     }
   },
 
   components: {
-    Cell
+    Cell,
+    UploaderFiles,
+    UploaderFile
+  },
+
+  filters: {
+    status: function(val){
+      var _ret;
+
+      if(val === 100){
+        _ret = '';
+      }else if(typeof val === 'number'){
+        _ret = val + '%';
+      }else{
+        _ret = val;
+      }
+
+      return _ret;
+    }
   }
 }
 </script>

@@ -2,8 +2,19 @@
 
 .g_fast_sign{
   .weui_grids{
+    position: relative;
     padding: 10px;
     background-color: #fff;
+    .weui_icon_success{
+      display: none;
+      position: absolute;
+      right: 10px;
+      &:before{
+        font-size: 30px;
+        background-color: #fff;
+        border-radius: 50%;
+      }
+    }
   }
   .weui_cells_title{
     font-size: 17px;
@@ -25,6 +36,14 @@
       background-color: #fff;
       .wrap{
         background-color: #c6c6c6;
+      }
+    }
+    &.active{
+      .wrap{
+        background-color: #c6c6c6;
+      }
+      .weui_icon_success{
+        display: block;
       }
     }
     &:before, &:after{
@@ -61,11 +80,31 @@
 .g_subscribe_sign{
   .weui_cells{
     margin-top: 0;
-    margin-bottom: .5em;
+    margin-bottom: 10px;
   }
   .cell_datetime{
     input{
 
     }
+  }
+}
+
+.g_order_list{
+  .order_urgent{
+    .order_date:before{
+      content: '应急';
+      color: #fff;
+      background-color: #FF8910;
+      display: inline-block;
+      padding: 1px 5px;
+    }
+  }
+  .weui_cell_ft{
+    .weui_btn {
+      margin-top: 0;
+    }
+  }
+  .status_pending {
+    color: #39D837;
   }
 }
