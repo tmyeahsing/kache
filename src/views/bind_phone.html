@@ -11,23 +11,22 @@
     <div class="weui_cells weui_cells_form">
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
-                <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号">
+                <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" v-model="phone">
             </div>
         </div>
         <div class="weui_cell weui_vcode">
             <div class="weui_cell_bd weui_cell_primary">
-                <input class="weui_input" type="number" placeholder="请输入验证码">
+                <input class="weui_input" type="number" placeholder="请输入验证码" v-model="code">
             </div>
             <div class="weui_cell_ft">
-                <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">获取验证码</a>
+                <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="sendMsg">获取验证码</a>
             </div>
         </div>
     </div>
 
     <div class="weui_btn_area">
-        <a class="weui_btn weui_btn_primary" href="javascript:" @click="showActionSheet()">提交</a>
+        <a class="weui_btn weui_btn_primary" href="javascript:" @click="validateCode()">提交</a>
     </div>
-    <Hello :show.sync="show" :actions="{'cancel':'取消'}" :menus="{'menuA':'menuA'}"></Hello>
 </div>
 </body>
 </html>

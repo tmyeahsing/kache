@@ -82,9 +82,12 @@
     margin-top: 0;
     margin-bottom: 10px;
   }
-  .cell_datetime{
-    input{
-
+  .weui_cell_select{
+    padding: 10px 15px;
+    select{
+      height: 1.41176471em;
+      line-height: 1.41176471;
+      padding-left: 0;
     }
   }
 }
@@ -106,5 +109,74 @@
   }
   .status_pending {
     color: #39D837;
+  }
+}
+
+.g_order_detail{
+  .order_urgent{
+    .order_date:before{
+      content: '应急';
+      color: #fff;
+      background-color: #FF8910;
+      display: inline-block;
+      padding: 1px 5px;
+    }
+  }
+  .status_pending {
+    color: #39D837;
+  }
+  .media_box_locate.weui_media_box.weui_media_appmsg .weui_media_hd{
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    .weui_media_title{
+      font-size: 14px;
+    }
+    .weui_media_desc{
+      font-size: 12px;
+    }
+  }
+  .weui_media_hd[data-count]{
+    position: relative;
+    &:after{
+      content: attr(data-count)'张';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: red;
+      color: #fff;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0 5px;
+    }
+  }
+  .date{
+    text-align: right;
+  }
+  .price_list{
+    .weui_panel_hd{
+      color: #333;
+    }
+    .weui_panel_bd{
+      padding: 10px 0;
+    }
+    .weui_panel_ft{
+      text-align: right;
+    }
+    ul{
+      font-size: .9em;
+      color: #999;
+    }
+    li{
+      display: block;
+      list-style: disc;
+      margin-left: 10px;
+      li{
+        margin-left: 20px;
+      }
+    }
+    .weui_cell{
+      padding: 5px 15px;
+    }
   }
 }

@@ -63,24 +63,20 @@ export default {
   },
 
   methods: {
-    addFilePreview: function(blobArray){
+    addFiles: function(files){
       var _balance = this.maxLength - this.uploadFiles.length;
-      var _array = blobArray.map(function(blob){
-        return {
-          url: blob,
-          status: 0
-        }
+      var _array = [];
+      Array.prototype.forEach.call(files, function(file){
+        _array.push({
+          url: window.URL.createObjectURL(file),
+          status: 0,
+          file: file
+        });
       });
       this.uploadFiles = this.uploadFiles.concat(_array.splice(0, _balance));
     },
     inputChange(event) {
-      var _array = [];
-
-      [].forEach.call(event.currentTarget.files, function(ele, i){
-        _array.push(window.URL.createObjectURL(ele));
-      })
-
-      this.addFilePreview(_array);
+      this.addFiles(event.currentTarget.files);
 
       event.currentTarget.value = '';
     }
