@@ -7,11 +7,11 @@ new Vue({
         orders: []
     },
     created(){
-        var orderQuery = new AV.Query('Order');
-        orderQuery.find().then(results => {
-                this.orders = results
-            }).fail(function(err){
-            console.log(err);
-        });
+        this.getOrders();
+    },
+    methods: {
+        getOrders(){
+            $.get('/api/order', data => this.orders = data)
+        }
     }
 })

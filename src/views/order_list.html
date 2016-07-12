@@ -10,7 +10,7 @@
     <div class="weui_panel weui_panel_access order_urgent" v-for="order in orders">
         <div class="weui_panel_hd weui_cell">
             <div class="weui_cell_primary order_date">
-                报修时间：{{order.get('createdAt') | date}}
+                报修时间：{{order.createdAt | date}}
             </div>
             <div class="weui_cell_ft status_pending">
                 待接单
@@ -23,7 +23,7 @@
                 </div>
                 <div class="weui_media_bd">
                     <h4 class="weui_media_title">故障描述</h4>
-                    <p class="weui_media_desc">{{order.get('desc')}}</p>
+                    <p class="weui_media_desc">{{order.desc}}</p>
                 </div>
             </a>
         </div>

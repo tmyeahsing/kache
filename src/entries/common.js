@@ -2,12 +2,7 @@
 require('css/common.scss');
 
 window.Vue = require('vue');
-window.AV = require('js/av.js');
-
-AV.init({
-    appId: 'DCT46JPe0tVDCWnaBaFWjqug-gzGzoHsz',
-    appKey: '0jOY9oLEJDXNRTlzFyALSg1X'
-});
+window.jquery = window.$ = require('jquery');
 
 Vue.filter('date', function(value, type){
     var _date = new Date(value);
