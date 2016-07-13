@@ -22,18 +22,49 @@ new Vue({
         },
         sign(){
             var self = this;
-            $.ajax({
-                url: '/api/order',
-                type: 'post',
-                data: {
+            var images = this.$refs.uploader.uploadFiles;
+            if(images.length){
+                var formData = new FormData();
+                images.forEach(function(ele, i){
+                    formData.append('images['+ i +']', ele.file);
+                });
+                $.ajax({
+                    url: '/api/upload',
+                    type: 'post',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        var imageUrls = data.data.map(function(ele, i){
+                            return ele.fileUrl;
+                        });
+                        submit(imageUrls)
+                    }
+                })
+            }else{
+                submit();
+            }
+
+            function submit(imageUrls){
+                var params = {
                     desc: self.typeMap[self.type],
                     type: 1,
                     status: 0
-                },
-                success: function(data){
-                    console.log(data)
+                };
+                if(images){
+                    params.images = imageUrls;
                 }
-            })
+                $.ajax({
+                    url: '/api/order',
+                    type: 'POST',
+                    data: params,
+                    success: function(data){
+                        if(data.success){
+                            window.location.href = './order_list.html';
+                        }
+                    }
+                })
+            }
         }
     }
 })

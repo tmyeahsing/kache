@@ -25,14 +25,14 @@ compiler.plugin('compilation', function (compilation) {
   })
 })
 
-//serve-index
-app.use('/', serveIndex('./src/views', {'icons': true}))
 //api proxy
-app.use('/api', function(req, res, next){
+app.all('/api/*', function(req, res, next){
   "use strict";
-  var r = request({method: req.method, url: 'http://localhost:3000/api' + req.url})
+  var r = request({method: req.method, url: 'http://localhost:3000' + req.url})
   req.pipe(r).pipe(res)
 })
+//serve-index
+app.use('/', serveIndex('./src/views', {'icons': true}))
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
