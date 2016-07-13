@@ -1,6 +1,4 @@
 'use strict'
-require('css/style.scss')
-
 import actionSheet from '../components/actionsheet/actionsheet.vue'
 
 new Vue({

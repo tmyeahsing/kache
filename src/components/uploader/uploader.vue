@@ -19,6 +19,27 @@
 </div>
 </template>
 
+<style lang="scss">
+  .weui_uploader_file{
+    list-style: none;
+    .weui_icon_clear{
+      float: right;
+      &:before{
+         display: block;
+         color: #F50903;
+         background-color: #fff;
+         border-radius: 50%;
+         font-size: 24px;
+       }
+    }
+  }
+  .weui_uploader_full{
+    text-align: right;
+    color: #F50903;
+    font-size: .8em;
+  }
+</style>
+
 <script>
 import Cell from '../cells/cell.vue';
 import UploaderFiles from '../uploader/uploader-files.vue';

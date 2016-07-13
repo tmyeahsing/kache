@@ -1,6 +1,4 @@
 'use strict'
-require('css/style.scss')
-
 import Uploader from '../components/uploader/uploader.vue'
 
 new Vue({

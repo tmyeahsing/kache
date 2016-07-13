@@ -1,6 +1,4 @@
 'use strict'
-require('css/style.scss')
-
 import Uploader from '../components/uploader/uploader.vue'
 
 new Vue({
@@ -35,24 +33,26 @@ new Vue({
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        var imageUrls = data.data.map(function(ele, i){
-                            return ele.fileUrl;
-                        });
-                        submit(imageUrls)
+                        submit(data)
                     }
                 })
             }else{
                 submit();
             }
 
-            function submit(imageUrls){
+            function submit(images){
                 var params = {
                     desc: self.typeMap[self.type],
                     type: 1,
                     status: 0
                 };
                 if(images){
-                    params.images = imageUrls;
+                    params.images = images.data.map(function(ele, i){
+                        return ele.fileUrl;
+                    });
+                    params.thumbnails = images.data.map(function(ele, i){
+                        return ele.filethumbnailUrl;
+                    });;
                 }
                 $.ajax({
                     url: '/api/order',
