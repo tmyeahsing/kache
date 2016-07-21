@@ -49,7 +49,7 @@ $.ajax({
                             desc: self.typeMap[self.type],
                             type: 1,
                             status: 0,
-                            createdBy: currentUser
+                            createdBy: currentUser.objectId
                         };
                         if(images){
                             params.images = images.data.map(function(ele, i){
