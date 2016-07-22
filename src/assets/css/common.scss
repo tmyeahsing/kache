@@ -1,5 +1,6 @@
 @charset "utf-8";
 @import "weui.min.css";
+@import "animate.css";
 
 body{
   background-color: #e6e6e6;
@@ -10,6 +11,10 @@ a:hover{
 
 .weui_cells{
   margin-top: 10px;
+}
+
+[v-show] {
+  display: none;
 }
 
 @import "style.scss";

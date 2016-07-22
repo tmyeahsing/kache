@@ -1,6 +1,11 @@
 'use strict'
 import Uploader from '../components/uploader/uploader.vue'
 
+Vue.transition('zoom', {
+    enterClass: 'zoomIn',
+    leaveClass: 'zoomOut'
+})
+
 new Vue({
     el: 'body',
     components: {
@@ -13,6 +18,9 @@ new Vue({
             1: '开不动，不知何故'
         },
         uploadMaxLength: 4,
+        isVerifyContainerShown: false,
+        phone: '',
+        code: '',
         console: ''
     },
     methods: {
@@ -69,6 +77,47 @@ new Vue({
                     }
                 })
             }
+        },
+        checkUserMobilePhoneVerified(user){
+            var self = this;
+            if(user.mobilePhoneVerified){
+                self.sign();
+            }else{
+                self.verifyMobilePhone().then(function(){
+                    self.hideVerifyContainer();
+                });
+            }
+        },
+        getUserInfo(){
+            var self = this;
+            $.grantedAjax({
+                url: 'https://api.leancloud.cn/1.1/users/me',
+                success(data){
+                    self.checkUserMobilePhoneVerified(data)
+                }
+            });
+        },
+        verifyMobilePhone(){
+            var self = this;
+            return new Promise(function(resolve, reject){
+                self.showVerifyContainer();
+                setTimeout(resolve, 2000);
+            });
+        },
+        showVerifyContainer(){
+            this.isVerifyContainerShown = true;
+        },
+        hideVerifyContainer(){
+            this.isVerifyContainerShown = false;
+        },
+        toggleVerifyContainer(){
+            this.isVerifyContainerShown = !this.isVerifyContainerShown;
+        },
+        sendMsg(){
+
+        },
+        validateCode(){
+            self.hideVerifyContainer();
         }
     }
 })

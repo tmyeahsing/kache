@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+html,body{
+  overflow: hidden;
+}
 .g_fast_sign{
   .weui_grids{
     position: relative;
@@ -57,6 +60,14 @@
 }
 
 .g_bind_phone{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #e6e6e6;
+  -webkit-animation-duration:.5s;
+  animation-duration:.5s;
   .weui_cells_title{
     .weui_icon_warn{
       margin-right: 10px;
@@ -100,6 +111,7 @@
       background-color: #FF8910;
       display: inline-block;
       padding: 1px 5px;
+      margin-right: 5px;
     }
   }
   .weui_cell_ft{

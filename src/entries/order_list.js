@@ -17,6 +17,9 @@ new Vue({
                     xhr.setRequestHeader('X-LC-Key', AppKey);
                     xhr.setRequestHeader('X-LC-Session', SessionToken);
                 },
+                data: {
+                    order: '-updatedAt'
+                },
                 success: data => self.orders = data.results
             })
         }

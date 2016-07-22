@@ -3,6 +3,16 @@ require('css/common.scss');
 
 window.Vue = require('vue');
 window.jquery = window.$ = require('jquery');
+$.extend($, {
+    'grantedAjax': function(options){
+        options.beforeSend = function(xhr, setting){
+            xhr.setRequestHeader('X-LC-Id', AppId);
+            xhr.setRequestHeader('X-LC-Key', AppKey);
+            xhr.setRequestHeader('X-LC-Session', SessionToken);
+        };
+        return $.ajax(options);
+    }
+});
 
 Vue.filter('date', function(value, type){
     var _date = new Date(value);
@@ -17,6 +27,8 @@ Vue.filter('date', function(value, type){
 
     return _pDate.join('-') + ' ' + _pTime.join(':');
 });
+
+
 
 //补足到2位，value为string或number类型
 function bitTo2(value){

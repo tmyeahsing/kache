@@ -9,9 +9,7 @@
 <div class="g_order_list">
     <div class="weui_panel weui_panel_access order_urgent" v-for="order in orders">
         <div class="weui_panel_hd weui_cell">
-            <div class="weui_cell_primary order_date">
-                报修时间：{{order.createdAt | date}}
-            </div>
+            <div class="weui_cell_primary order_date">报修时间：{{order.updatedAt | date}}</div>
             <div class="weui_cell_ft status_pending">
                 待接单
             </div>
