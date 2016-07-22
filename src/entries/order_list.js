@@ -9,7 +9,16 @@ new Vue({
     },
     methods: {
         getOrders(){
-            $.get('/api/order', data => this.orders = data)
+            var self = this;
+            $.ajax({
+                url: 'https://api.leancloud.cn/1.1/classes/Order',
+                beforeSend(xhr, setting){
+                    xhr.setRequestHeader('X-LC-Id', AppId);
+                    xhr.setRequestHeader('X-LC-Key', AppKey);
+                    xhr.setRequestHeader('X-LC-Session', SessionToken);
+                },
+                success: data => self.orders = data.results
+            })
         }
     }
 })
