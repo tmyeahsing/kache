@@ -10,7 +10,7 @@ $.extend($, {
             xhr.setRequestHeader('X-LC-Key', AppKey);
             xhr.setRequestHeader('X-LC-Session', SessionToken);
         };
-        return $.ajax(options);
+        return Promise.resolve($.ajax(options));
     }
 });
 

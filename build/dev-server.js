@@ -51,5 +51,5 @@ app.listen(8080, function (err) {
     return
   }
   //open localhost
-  c.exec('start http://localhost:8080')
+  //c.exec('start http://localhost:8080')
 })

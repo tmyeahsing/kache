@@ -18,7 +18,8 @@ new Vue({
                     xhr.setRequestHeader('X-LC-Session', SessionToken);
                 },
                 data: {
-                    order: '-updatedAt'
+                    order: '-updatedAt',
+                    include: 'createdBy'
                 },
                 success: data => self.orders = data.results
             })

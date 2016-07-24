@@ -4,7 +4,7 @@ import Uploader from '../components/uploader/uploader.vue'
 Vue.transition('zoom', {
     enterClass: 'zoomIn',
     leaveClass: 'zoomOut'
-})
+});
 
 new Vue({
     el: 'body',
@@ -29,11 +29,23 @@ new Vue({
         },
         sign(){
             var self = this;
+            this.getUserInfo().then(function(user){
+                self._userId = user.objectId;
+                if(user.myMobilePhoneVerified){
+                    self.doSign();
+                }else{
+                    self.showVerifyContainer();
+                }
+            })
+
+        },
+        doSign(){
+            var self = this;
             var images = this.$refs.uploader.uploadFiles;
-            if(images.length){
+            if (images.length) {
                 var formData = new FormData();
-                images.forEach(function(ele, i){
-                    formData.append('images['+ i +']', ele.file);
+                images.forEach(function (ele, i) {
+                    formData.append('images[' + i + ']', ele.file);
                 });
                 $.ajax({
                     url: '/api/upload',
@@ -41,67 +53,46 @@ new Vue({
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(data){
+                    success: function (data) {
                         submit(data)
                     }
                 })
-            }else{
+            } else {
                 submit();
             }
 
-            function submit(images){
+            function submit(images) {
                 var params = {
                     desc: self.typeMap[self.type],
                     type: 1,
                     status: 0
                 };
-                if(images){
-                    params.images = images.data.map(function(ele, i){
+                if (images) {
+                    params.images = images.data.map(function (ele, i) {
                         return ele.fileUrl;
                     });
-                    params.thumbnails = images.data.map(function(ele, i){
+                    params.thumbnails = images.data.map(function (ele, i) {
                         return ele.filethumbnailUrl;
-                    });;
+                    });
                 }
                 $.ajax({
                     url: '/api/order',
                     type: 'POST',
                     data: params,
-                    success: function(data){
-                        if(data.success){
+                    success: function (data) {
+                        if (data.success) {
                             window.location.href = './order_list.html';
                         }
                     },
-                    error: function(err){
+                    error: function (err) {
                         self.console = err.error
                     }
                 })
             }
         },
-        checkUserMobilePhoneVerified(user){
-            var self = this;
-            if(user.mobilePhoneVerified){
-                self.sign();
-            }else{
-                self.verifyMobilePhone().then(function(){
-                    self.hideVerifyContainer();
-                });
-            }
-        },
         getUserInfo(){
-            var self = this;
-            $.grantedAjax({
-                url: 'https://api.leancloud.cn/1.1/users/me',
-                success(data){
-                    self.checkUserMobilePhoneVerified(data)
-                }
-            });
-        },
-        verifyMobilePhone(){
-            var self = this;
-            return new Promise(function(resolve, reject){
-                self.showVerifyContainer();
-                setTimeout(resolve, 2000);
+            return $.grantedAjax({
+                url: 'https://api.leancloud.cn/1.1/users/me'
             });
         },
         showVerifyContainer(){
@@ -114,10 +105,34 @@ new Vue({
             this.isVerifyContainerShown = !this.isVerifyContainerShown;
         },
         sendMsg(){
-
+            var self = this;
+            self.modifyUserMobile()
+            .then(data => self.console = JSON.stringify(data))
+            .catch(err => self.console = err.responseText)
         },
         validateCode(){
-            self.hideVerifyContainer();
+            var self = this;
+            $.grantedAjax({
+                url: 'https://api.leancloud.cn/1.1/verifyMobilePhone/'+ self.code,
+                type: 'post',
+                contentType: 'application/json'
+            })
+            .then(function(){
+                self.hideVerifyContainer();
+                self.doSign();
+            })
+            .catch(err => self.console = err.responseText)
+        },
+        modifyUserMobile(){
+            var self = this;
+            return $.grantedAjax({
+                url: 'https://api.leancloud.cn/1.1/users/' + self._userId,
+                type: 'put',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    mobilePhoneNumber: self.phone
+                })
+            });
         }
     }
 })

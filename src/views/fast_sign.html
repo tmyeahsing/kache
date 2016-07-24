@@ -44,12 +44,12 @@
     </div>
 
     <div class="weui_btn_area">
-        <a class="weui_btn weui_btn_primary" href="javascript:;" @click="getUserInfo">确认报修</a>
+        <a class="weui_btn weui_btn_primary" href="javascript:;" @click="sign">确认报修</a>
     </div>
 </div>
 
 <div class="g_bind_phone animated" v-show="isVerifyContainerShown" transition="zoom" style="display: none;">
-    <div class="weui_cells_title"><i class="weui_icon_warn"></i>绑定手机号，方面维修人员及时联系您</div>
+    <div class="weui_cells_title"><i class="weui_icon_warn"></i>绑定手机号，方便维修人员及时联系您</div>
     <div class="weui_cells weui_cells_form">
         <div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
@@ -67,8 +67,9 @@
     </div>
 
     <div class="weui_btn_area">
-        <a class="weui_btn weui_btn_primary" href="javascript:" @click="validateCode()">提交</a>
+        <a class="weui_btn weui_btn_primary" href="javascript:" @click="validateCode">提交</a>
     </div>
+    <p>{{console}}</p>
 </div>
 
 <p>{{console}}</p>
