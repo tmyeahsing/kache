@@ -31,7 +31,7 @@ new Vue({
             var self = this;
             this.getUserInfo().then(function(user){
                 self._userId = user.objectId;
-                if(user.myMobilePhoneVerified){
+                if(user.myMobilePhoneNumber){
                     self.doSign();
                 }else{
                     self.showVerifyContainer();
@@ -106,17 +106,27 @@ new Vue({
         },
         sendMsg(){
             var self = this;
-            self.modifyUserMobile()
+            $.grantedAjax({
+                url: 'https://api.leancloud.cn/1.1/requestSmsCode',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    mobilePhoneNumber: self.phone
+                })
+            })
             .then(data => self.console = JSON.stringify(data))
             .catch(err => self.console = err.responseText)
         },
         validateCode(){
             var self = this;
             $.grantedAjax({
-                url: 'https://api.leancloud.cn/1.1/verifyMobilePhone/'+ self.code,
+                url: 'https://api.leancloud.cn/1.1/verifySmsCode/'+ self.code + '??mobilePhoneNumber=' + self.phone,
                 type: 'post',
                 contentType: 'application/json'
             })
+            .then(function(){
+                  return self.modifyUserMobile();
+             })
             .then(function(){
                 self.hideVerifyContainer();
                 self.doSign();
@@ -130,7 +140,7 @@ new Vue({
                 type: 'put',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    mobilePhoneNumber: self.phone
+                    myMobilePhoneNumber: self.phone
                 })
             });
         }

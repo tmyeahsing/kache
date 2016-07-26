@@ -19,7 +19,7 @@ new Vue({
                 },
                 data: {
                     order: '-updatedAt',
-                    include: 'createdBy'
+                    include: 'createdBy.myMobilePhoneNumber'
                 },
                 success: data => self.orders = data.results
             })
