@@ -1,10 +1,10 @@
 'use strict'
-import Uploader from '../components/uploader/uploader.vue'
+import uploader from '../components/uploader/uploader.vue'
 
 new Vue({
     el: 'body',
     components: {
-        Uploader: Uploader
+        uploader: uploader
     },
     data: {
         date: new Date(),

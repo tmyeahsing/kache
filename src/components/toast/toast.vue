@@ -1,29 +1,41 @@
 <template>
-<div :class="{'weui_loading_toast': type === 'loading'}">
-  <div class="weui_mask_transparent"></div>
-  <div class="weui_toast">
-    <div class="weui_loading" v-if="type === 'loading'">
-      <div v-for="n in 12" class="weui_loading_leaf" :class="'weui_loading_leaf_' + n"></div>
+    <div v-show="shown">
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+            <i class="weui_icon_toast"></i>
+            <div class="weui_toast_content">
+                {{text}}
+            </div>
+        </div>
     </div>
-    <i class="weui_icon_toast" v-else></i>
-    <div class="weui_toast_content"><slot></slot></div>
-  </div>
-</div>
 </template>
 
 <script>
-export default {
-  props: {
-    /**
-     * toast类型
-     * icon: 包含图标的提示框（默认）
-     * loading: 包含loading动画的提示框
-     */
-    type: {
-      type: String,
-      required: false,
-      default: 'icon'
+    var _timeout = undefined;
+    export default {
+        data:function(){
+            return {
+                shown: false,
+                text: ''
+            }
+        },
+        methods: {
+            show: function(text, cb){
+                var self = this;
+                if(_timeout){
+                    clearTimeout(_timeout);
+                }
+                this.text = text;
+                this.shown = true;
+                _timeout = setTimeout(function(){
+                    self.shown = false;
+                    clearTimeout(_timeout);
+                    _timeout = undefined;
+                    if(typeof cb === 'function'){
+                        cb();
+                    }
+                }, 3000);
+            }
+        }
     }
-  }
-}
 </script>

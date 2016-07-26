@@ -1,19 +1,27 @@
 'use strict'
 require('css/common.scss');
 
+import toast from '../components/toast/toast.vue'
+import loadingToast from '../components/toast/loading-toast.vue'
 window.Vue = require('vue');
 window.jquery = window.$ = require('jquery');
+
+//promisefy ajax
 $.extend($, {
-    'grantedAjax': function(options){
+    grantedAjax(options){
         options.beforeSend = function(xhr, setting){
             xhr.setRequestHeader('X-LC-Id', AppId);
             xhr.setRequestHeader('X-LC-Key', AppKey);
             xhr.setRequestHeader('X-LC-Session', SessionToken);
         };
         return Promise.resolve($.ajax(options));
+    },
+    promiseAjax(options){
+        return Promise.resolve($.ajax(options));
     }
 });
 
+//vue filters
 Vue.filter('date', function(value, type){
     var _date = new Date(value);
     var _pDate = [];
@@ -27,6 +35,26 @@ Vue.filter('date', function(value, type){
 
     return _pDate.join('-') + ' ' + _pTime.join(':');
 });
+
+//global vue components
+window.ToastHandler = new Vue({
+    el: '#toastContainer',
+    components: {
+        toast: toast,
+        loadingToast: loadingToast
+    },
+    methods: {
+        showToast(text, cb){
+            this.$refs.toast.show(text, cb);
+        },
+        showLoading(text){
+            this.$refs.loading.show(text);
+        },
+        hideLoading(){
+            this.$refs.loading.hide();
+        }
+    }
+})
 
 
 
