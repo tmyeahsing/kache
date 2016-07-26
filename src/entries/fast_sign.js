@@ -73,9 +73,7 @@ new Vue({
 
             function submit(images) {
                 var params = {
-                    desc: self.typeMap[self.type],
-                    type: 1,
-                    status: 0
+                    desc: self.typeMap[self.type]
                 };
                 ToastHandler.showLoading('提交报修信息...');
                 if (images) {

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="weui_panel_bd">
-            <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+            <a href="/order_detail.html?id={{order.objectId}}" class="weui_media_box weui_media_appmsg">
                 <div class="weui_media_hd">
 
                     <img v-if="order.thumbnails" class="weui_media_appmsg_thumb" :src="order.thumbnails[0]" alt="">
@@ -36,6 +36,11 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="toastContainer">
+    <toast v-ref:toast></toast>
+    <loading-toast v-ref:loading></loading-toast>
 </div>
 <script src="/static/grant_info.js"></script>
 </body>

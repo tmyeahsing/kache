@@ -56,10 +56,27 @@ window.ToastHandler = new Vue({
     }
 })
 
+//location params
+window.UrlParams = getUrlParams();
 
+//å•æ®çŠ¶æ€
+window.OrderStatusMap = {
+    0: 'å¾…æ¥å•'
+}
 
-//²¹×ãµ½2Î»£¬valueÎªstring»ònumberÀàĞÍ
+//è¡¥è¶³åˆ°2ä½ï¼Œvalueä¸ºstringæˆ–numberç±»å‹
 function bitTo2(value){
     var str = '0' + value;
     return str.substr(-2, 2);
+}
+
+//location params
+function getUrlParams(){
+    var _ret = {};
+    var _str = location.search;
+    if(_str.length){
+        _str = _str.replace(/^\?/, '{"').replace(/=/g, '":"').replace(/&/, '","');
+        _str += '"}'
+    }
+    return JSON.parse(_str);
 }

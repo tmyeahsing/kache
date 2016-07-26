@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 	<title>kache</title>
 </head>
-<body ontouchstart>
+<body ontouchstart v-cloak>
 <div class="g_order_detail">
     <div class="weui_panel">
-        <div class="weui_panel_hd weui_cell order_urgent">
+        <div class="weui_panel_hd weui_cell" :class="{order_urgent: order.type === 0}">
             <div class="weui_cell_primary order_date">
-                订单号:32454354354354
+                订单号:{{order.orderId}}
             </div>
             <div class="weui_cell_ft status_pending">
-                待接单
+                {{statusMap[order.status]}}
             </div>
         </div>
         <div class="weui_panel_bd">
@@ -127,6 +127,10 @@
             <p>下单时间:2015-08-27 14:00:22</p>
         </div>
     </div>
+</div>
+<div id="toastContainer">
+    <toast v-ref:toast></toast>
+    <loading-toast v-ref:loading></loading-toast>
 </div>
 <script src="/static/grant_info.js"></script>
 </body>

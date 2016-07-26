@@ -10,7 +10,7 @@ new Vue({
     methods: {
         getOrders(){
             var self = this;
-            $.ajax({
+            $.promiseAjax({
                 url: 'https://api.leancloud.cn/1.1/classes/Order',
                 beforeSend(xhr, setting){
                     xhr.setRequestHeader('X-LC-Id', AppId);
@@ -19,10 +19,11 @@ new Vue({
                 },
                 data: {
                     order: '-updatedAt',
-                    include: 'createdBy.myMobilePhoneNumber'
-                },
-                success: data => self.orders = data.results
-            })
+                    include: 'createdBy'
+                }
+            }).catch(function(err){
+
+            }).then(data => self.orders = data.results)
         }
     }
 })
