@@ -17,4 +17,8 @@ a:hover{
   display: none;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 @import "style.scss";
