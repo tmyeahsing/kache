@@ -77,6 +77,7 @@ function getUrlParams(){
     if(_str.length){
         _str = _str.replace(/^\?/, '{"').replace(/=/g, '":"').replace(/&/, '","');
         _str += '"}'
+        _ret = JSON.parse(_str)
     }
-    return JSON.parse(_str);
+    return _ret;
 }

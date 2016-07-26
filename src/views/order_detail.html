@@ -3,9 +3,11 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
 	<title>kache</title>
 </head>
 <body ontouchstart v-cloak>
+<p>{{location}}</p>
 <div class="g_order_detail">
     <div class="weui_panel">
         <div class="weui_panel_hd weui_cell" :class="{order_urgent: order.type === 0}">
@@ -31,12 +33,12 @@
     <div class="weui_panel weui_cells_access">
         <div class="weui_panel_bd">
             <div class="weui_media_box weui_media_appmsg">
-                <div class="weui_media_hd" data-count="4">
-                    <img class="weui_media_appmsg_thumb" src="../assets/images/baotai.jpg" alt="">
+                <div class="weui_media_hd" data-count="{{order.images.length}}">
+                    <img class="weui_media_appmsg_thumb" :src="order.images[0]" alt="">
                 </div>
                 <div class="weui_media_bd">
                     <h4 class="weui_media_title">故障描述</h4>
-                    <p class="weui_media_desc">开不动，轮胎坏了</p>
+                    <p class="weui_media_desc">{{order.desc}}</p>
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
             <span class="weui_cell_ft"></span>
         </a>
         <div class="weui_panel_ft date">
-            报修时间：2014/05/31 07:07
+            报修时间：{{order.updatedAt | date}}
         </div>
     </div>
     <div class="weui_panel price_list">
@@ -133,5 +135,6 @@
     <loading-toast v-ref:loading></loading-toast>
 </div>
 <script src="/static/grant_info.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </body>
 </html>
