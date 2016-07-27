@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+	<title>kache</title>
+</head>
+<body ontouchstart v-cloak>
+<div class="g_order_admin">
+    <search-bar :value.sync="keyword" placeholder="请输入订单号、手机号、姓名"></search-bar>
+
+    <div class="weui_panel weui_panel_access">
+        <a class="weui_panel_ft" href="javascript:void(0);">查看全部订单</a>
+        <div class="weui_panel_bd">
+            <div class="weui_grids">
+                <a href="javascript:;" class="weui_grid" v-for="item in statusCount.map">
+                    <div class="weui_grid_icon status_count">
+                        {{statusCount.count[$index]}}
+                    </div>
+                    <p class="weui_grid_label">
+                        {{item}}
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="g_order_list">
+        <div class="weui_panel weui_panel_access order_urgent" v-for="order in orders">
+            <div class="weui_panel_hd weui_cell">
+                <div class="weui_cell_primary order_date">报修时间：{{order.updatedAt | date}}</div>
+                <div class="weui_cell_ft status_pending">
+                    待接单
+                </div>
+            </div>
+            <div class="weui_panel_bd">
+                <a href="/order_detail.html?id={{order.objectId}}" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+
+                        <img v-if="order.thumbnails" class="weui_media_appmsg_thumb" :src="order.thumbnails[0]" alt="">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 class="weui_media_title">故障描述</h4>
+                        <p class="weui_media_desc">{{order.desc}}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="weui_panel_hd weui_cell">
+                <div class="weui_cell_primary" v-if="order.status == 0">
+                    {{order.updatedAt | countDown serverDate 15}}
+                </div>
+                <div class="weui_cell_primary" v-else>
+                    预估费用:150元
+                </div>
+                <div class="weui_cell_ft">
+                    <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
+                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer">
+    <toast v-ref:toast></toast>
+    <loading-toast v-ref:loading></loading-toast>
+</div>
+<script src="/static/grant_info.js"></script>
+</body>
+</html>

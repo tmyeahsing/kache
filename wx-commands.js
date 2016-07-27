@@ -10,10 +10,18 @@ $.promiseAjax({
     }
 })
 
+//查看分组
+$.promiseAjax({
+    url: '/api/wechat_group',
+    success(data){
+        console.log(data)
+    }
+})
+
 //移动用户至某分组
 $.promiseAjax({
     url: '/api/wechat_group/move_user_to',
-    type: 'post',
+    type: 'put',
     data: {
         openid: 'oKGD_vnz-JnTTBKbxj6aolZ0IFGc',
         group_id: 100
@@ -24,10 +32,27 @@ $.promiseAjax({
 })
 
 
-//修改公众号菜单
+//生成公众号菜单
 $.promiseAjax({
     url: '/api/wechat_menu',
     type: 'put',
+    success(data){
+        console.log(data)
+    }
+})
+
+//新增自定义公众号菜单
+$.promiseAjax({
+    url: '/api/wechat_menu/custom',
+    type: 'put',
+    success(data){
+        console.log(data)
+    }
+})
+
+//获取菜单
+$.promiseAjax({
+    url: '/api/wechat_menu',
     success(data){
         console.log(data)
     }
