@@ -6,5 +6,6 @@ module.exports = {
     subscribe_sign: entryRoot + 'subscribe_sign.js',
     order_list: entryRoot + 'order_list.js',
     order_list_admin: entryRoot + 'order_list_admin.js',
-    order_detail: entryRoot + 'order_detail.js'
+    order_detail: entryRoot + 'order_detail.js',
+    order_detail_admin: entryRoot + 'order_detail_admin.js'
 }

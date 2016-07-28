@@ -1,33 +1,39 @@
 'use strict'
 import searchBar from '../components/search-bar/search-bar.vue'
+import {bitTo2} from './utils.js'
 new Vue({
-    el: 'body',
+    el: '#main_contain',
     data: {
         orders: [],
         statusCount: {
             map: ['待接单', '待确认', '待维修', '待付款', '余欠款', '已完成'],
             count: {}
         },
-        serverDate: undefined,
+        now: undefined,
         keyword: ''
     },
     components: {
         searchBar: searchBar
     },
     created(){
+        var self = this;
         this.getOrders();
+
         $.promiseAjax({
             url: '/api/order/count',
             data: {
                 status: [0, 1, 2, 3, 4, 5]
             }
         }).then(data => this.statusCount.count = data.data).catch(err => console.log(err));
-        setTimeout(function(){
-            $.promiseAjax({
-                url: 'https://api.leancloud.cn/1.1/date'
-            }).then(data => this.serverDate = new Date(data.iso)).catch(err => console.log(err));
-        },5000)
 
+        $.promiseAjax({
+            url: 'https://api.leancloud.cn/1.1/date'
+        }).then(function(data){
+            self.now = (+new Date(data.iso));
+            var _countDown = setInterval(function(){
+                self.now += 1000;
+            }, 1000);
+        }).catch(err => console.log(err));
     },
     methods: {
         getOrders(){
@@ -49,11 +55,18 @@ new Vue({
         }
     },
     filters: {
-        countDown(value, serverDate, gap){
-            if(!serverDate){
-                return '倒计时获取中';
+        countDownText(value){
+            if(value <= 0){
+                return '<p class="color-yellow">已超时</p>'
+            }else{
+                var _str = '';
+                var _min = '';
+                var _sec = '';
+                value = Math.round(value/1000);
+                _min = bitTo2(parseInt(value/60));
+                _sec = bitTo2(value%60);
+                return '接单倒计时<p class="color-green">' + _min + ' : ' + _sec + '</p>';
             }
-            return serverDate;
         }
     }
 })

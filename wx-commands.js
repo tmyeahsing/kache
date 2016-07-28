@@ -44,7 +44,7 @@ $.promiseAjax({
 //新增自定义公众号菜单
 $.promiseAjax({
     url: '/api/wechat_menu/custom',
-    type: 'put',
+    type: 'post',
     success(data){
         console.log(data)
     }

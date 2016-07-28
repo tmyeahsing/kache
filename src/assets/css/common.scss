@@ -1,6 +1,7 @@
 @charset "utf-8";
 @import "weui.min.css";
 @import "animate.css";
+@import "vars";
 
 body{
   background-color: #e6e6e6;
@@ -19,6 +20,21 @@ a:hover{
 
 [v-cloak] {
   display: none;
+}
+
+#main_contain[v-cloak] + .g_enter_loading{
+  display: block;
+}
+.g_enter_loading{
+  display: none;
+}
+
+.color-yellow{
+  color: $red;
+}
+
+.color-green{
+  color: $green;
 }
 
 @import "style.scss";

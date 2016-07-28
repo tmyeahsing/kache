@@ -2,7 +2,7 @@
 import uploader from '../components/uploader/uploader.vue'
 
 new Vue({
-    el: 'body',
+    el: '#main_contain',
     components: {
         uploader: uploader
     },

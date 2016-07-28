@@ -3,6 +3,8 @@ require('css/common.scss');
 
 import toast from '../components/toast/toast.vue'
 import loadingToast from '../components/toast/loading-toast.vue'
+import {bitTo2} from './utils.js'
+
 window.Vue = require('vue');
 window.jquery = window.$ = require('jquery');
 
@@ -35,6 +37,15 @@ Vue.filter('date', function(value, type){
 
     return _pDate.join('-') + ' ' + _pTime.join(':');
 });
+Vue.filter('countDown', function(value, from, gap){
+    if(!value){
+        return '倒计时获取中';
+    }else{
+        var _past = new Date(value) - new Date(from)
+        var _left = parseInt(gap) - _past;
+        return _left;
+    }
+});
 
 //global vue components
 window.ToastHandler = new Vue({
@@ -62,12 +73,6 @@ window.UrlParams = getUrlParams();
 //单据状态
 window.OrderStatusMap = {
     0: '待接单'
-}
-
-//补足到2位，value为string或number类型
-function bitTo2(value){
-    var str = '0' + value;
-    return str.substr(-2, 2);
 }
 
 //location params

@@ -8,7 +8,7 @@ Vue.transition('zoom', {
 });
 
 new Vue({
-    el: 'body',
+    el: '#main_contain',
     components: {
         uploader: uploader,
         phoneBinder: phoneBinder

@@ -6,8 +6,8 @@
     <meta name="format-detection" content="telephone=no">
 	<title>kache</title>
 </head>
-<body ontouchstart v-cloak>
-<div class="g_order_list">
+<body ontouchstart>
+<div v-cloak id="main_contain" class="g_order_list">
     <div class="weui_panel weui_panel_access order_urgent" v-for="order in orders">
         <div class="weui_panel_hd weui_cell">
             <div class="weui_cell_primary order_date">报修时间：{{order.updatedAt | date}}</div>
@@ -28,20 +28,43 @@
             </a>
         </div>
         <div class="weui_panel_hd weui_cell">
-            <div class="weui_cell_primary">
+            <div class="weui_cell_primary" v-if="order.status == 0">
+                {{{now | countDown order.updatedAt (15*60*1000) | countDownText}}}
+            </div>
+            <div class="weui_cell_primary" v-else>
                 预估费用:150元
             </div>
-            <div class="weui_cell_ft">
+            <div class="weui_cell_ft" v-if="now && ((new Date(now) - new Date(order.updatedAt)) <= 15*60*1000)">
                 <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
-                <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
             </div>
         </div>
     </div>
+
+    <div id="toastContainer">
+        <toast v-ref:toast></toast>
+        <loading-toast v-ref:loading></loading-toast>
+    </div>
 </div>
 
-<div id="toastContainer">
-    <toast v-ref:toast></toast>
-    <loading-toast v-ref:loading></loading-toast>
+<div class="weui_loading_toast g_enter_loading">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">数据加载中</p>
+    </div>
 </div>
 <script src="/static/grant_info.js"></script>
 </body>

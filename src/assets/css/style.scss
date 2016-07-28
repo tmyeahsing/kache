@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import "vars";
 
 html,body{
   overflow-x: hidden;
@@ -69,6 +70,9 @@ html,body{
   -webkit-animation-duration:.5s;
   animation-duration:.5s;
   .weui_cells_title{
+    background-color: #e6e6e6;
+    font-size: 14px;
+    color: #888;
     .weui_icon_warn{
       margin-right: 10px;
       &:before{
@@ -108,7 +112,7 @@ html,body{
     .order_date:before{
       content: '应急';
       color: #fff;
-      background-color: #FF8910;
+      background-color: $red;
       display: inline-block;
       padding: 1px 5px;
       margin-right: 5px;
@@ -152,7 +156,7 @@ html,body{
   .weui_media_hd[data-count]{
     position: relative;
     &:after{
-      content: attr(data-count)'张';
+      content: attr(data-count);
       position: absolute;
       right: 0;
       bottom: 0;

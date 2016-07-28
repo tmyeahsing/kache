@@ -7,7 +7,7 @@
 	<title>kache</title>
 </head>
 <body ontouchstart>
-<div v-cloak id="main_contain" class="g_order_detail">
+<div v-cloak id="main_contain" class="g_order_detail g_order_detail_admin">
     <div class="weui_panel">
         <div class="weui_panel_hd weui_cell" :class="{order_urgent: order.type === 0}">
             <div class="weui_cell_primary order_date">
@@ -42,16 +42,56 @@
                 </div>
             </div>
         </div>
-        <a class="weui_cell" href="javascript:;">
-            <div class="weui_cell_hd"><img src="../assets/images/message.png" alt="" style="display: block;
-            margin-right: .8em"></div>
-            <div class="weui_cell_bd weui_cell_primary">
-                <p>联系客服</p>
-            </div>
-            <span class="weui_cell_ft"></span>
-        </a>
-        <div class="weui_panel_ft date">
-            报修时间：{{order.updatedAt | date}}
+    </div>
+
+    <div class="weui_panel signer_info">
+        <div class="weui_panel_hd">
+            报修人信息
+        </div>
+        <div class="weui_panel_bd">
+            <ul>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            报修人:
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            联系电话:{{order.createdBy.myMobilePhoneNumber}}
+                        </div>
+                        <div class="weui_cell_ft">
+
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            报修时间:{{order.updatedAt | date}}
+                        </div>
+                        <div class="weui_cell_ft">
+
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            欠我厂总费用:
+                        </div>
+                        <div class="weui_cell_ft">
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="weui_panel_ft">
+            <p>总费用:750元</p>
+            <p>下单时间:2015-08-27 14:00:22</p>
         </div>
     </div>
 

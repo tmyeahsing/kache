@@ -37,7 +37,7 @@ $.promiseAjax({
 
 }).then(function(data){
     new Vue({
-        el: 'body',
+        el: '#main_contain',
         data: {
             order: data,
             statusMap: OrderStatusMap

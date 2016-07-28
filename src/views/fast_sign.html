@@ -6,9 +6,10 @@
     <meta name="format-detection" content="telephone=no">
 	<title>kache</title>
 </head>
-<body ontouchstart v-cloak>
-<div class="g_fast_sign">
+<body ontouchstart>
+<div v-cloak id="main_contain" class="g_fast_sign">
     <div class="weui_cells_title">确定报修项：</div>
+
     <div class="weui_grids">
         <a href="javascript:;" :class="{'weui_grid': true, 'active': type == 0}" @click="selectType(0)">
             <i class="weui_icon_success"></i>
@@ -47,37 +48,60 @@
     <div class="weui_btn_area">
         <a class="weui_btn weui_btn_primary" href="javascript:;" @click="sign">确认报修</a>
     </div>
-</div>
 
-<div class="g_bind_phone animated" v-show="isVerifyContainerShown" transition="zoom">
-    <div class="weui_cells_title"><i class="weui_icon_warn"></i>绑定手机号，方便维修人员及时联系您</div>
-    <div class="weui_cells weui_cells_form">
-        <div class="weui_cell weui_vcode">
-            <div class="weui_cell_bd weui_cell_primary">
-                <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" v-model="phone">
+    <!--<phone-binder></phone-binder>-->
+    <div class="g_bind_phone animated" v-show="isVerifyContainerShown" transition="zoom">
+        <div class="weui_cells_title"><i class="weui_icon_warn"></i>绑定手机号，方便维修人员及时联系您</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell weui_vcode">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" v-model="phone">
+                </div>
+                <div class="weui_cell_ft">
+                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="sendMsg">获取验证码</a>
+                </div>
             </div>
-            <div class="weui_cell_ft">
-                <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="sendMsg">获取验证码</a>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" placeholder="请输入验证码" v-model="code">
+                </div>
             </div>
         </div>
-        <div class="weui_cell">
-            <div class="weui_cell_bd weui_cell_primary">
-                <input class="weui_input" type="number" placeholder="请输入验证码" v-model="code">
-            </div>
+
+        <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_primary" href="javascript:" @click="validateCode">提交</a>
         </div>
+        <p>{{console}}</p>
     </div>
 
-    <div class="weui_btn_area">
-        <a class="weui_btn weui_btn_primary" href="javascript:" @click="validateCode">提交</a>
+
+    <div id="toastContainer">
+        <toast v-ref:toast></toast>
+        <loading-toast v-ref:loading></loading-toast>
     </div>
+
     <p>{{console}}</p>
 </div>
 
-<!--<phone-binder></phone-binder>-->
-<p>{{console}}</p>
-<div id="toastContainer">
-    <toast v-ref:toast></toast>
-    <loading-toast v-ref:loading></loading-toast>
+<div class="weui_loading_toast g_enter_loading">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">数据加载中</p>
+    </div>
 </div>
 <script src="/static/grant_info.js"></script>
 </body>
