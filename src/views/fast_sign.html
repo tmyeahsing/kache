@@ -58,7 +58,12 @@
                     <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" v-model="phone">
                 </div>
                 <div class="weui_cell_ft">
-                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="sendMsg">获取验证码</a>
+                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="sendMsg"
+                       v-show="!now || ((new Date(now) - new Date(lastSendDate)) >= 60*1000)">发送验证码
+                    </a>
+                    <span class="weui_btn weui_btn_primary weui_btn_disabled weui_btn_mini"
+                          v-show="now && ((new Date(now) - new Date(lastSendDate)) < 60*1000)">{{now | countDown
+                        lastSendDate (60*1000) | countDownText}}</span>
                 </div>
             </div>
             <div class="weui_cell">

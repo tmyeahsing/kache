@@ -23,6 +23,8 @@ new Vue({
         isVerifyContainerShown: false,
         phone: '',
         code: '',
+        now: undefined,
+        lastSendDate: undefined,
         console: ''
     },
     methods: {
@@ -126,8 +128,20 @@ new Vue({
                     mobilePhoneNumber: self.phone
                 })
             }).then(function(data){
+                $.promiseAjax({
+                    url: 'https://api.leancloud.cn/1.1/date'
+                }).then(function(data){
+                    self.now = (+new Date(data.iso));
+                    self.lastSendDate = (+new Date(data.iso));
+                    var _countDown = setInterval(function(){
+                        self.now += 1000;
+                        if(self.now - self.lastSendDate >= 60*1000){
+                            clearInterval(_countDown);
+                        }
+                    }, 1000);
+                }).catch(err => console.log(err));
                 ToastHandler.hideLoading();
-                ToastHandler.showToast('验证码已发送')
+                ToastHandler.showToast('验证码已发送');
                 //倒计时
             }).catch(function(err){
                 ToastHandler.hideLoading();
@@ -165,6 +179,15 @@ new Vue({
                     myMobilePhoneNumber: self.phone
                 })
             });
+        }
+    },
+    filters: {
+        countDownText(value){
+            if(value <= 0){
+                return '发送验证码'
+            }else{
+                return Math.round(value/1000) + '秒后重发'
+            }
         }
     }
 })

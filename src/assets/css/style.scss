@@ -85,6 +85,7 @@ html,body{
       margin: 5px;
       border-radius: 0;
       font-size: 18px;
+      width: 120px;
       &:after{
         border-radius: 0;
       }
@@ -133,7 +134,7 @@ html,body{
     .order_date:before{
       content: '应急';
       color: #fff;
-      background-color: #FF8910;
+      background-color: $red;
       display: inline-block;
       padding: 1px 5px;
       margin-right: 5px;
@@ -200,16 +201,16 @@ html,body{
 
 .g_order_admin{
   .weui_grid{
-    width: 16.66666667%;
+    width: 20%;
   }
   .status_count{
     text-align: center;
     width: auto;
     height: 24px;
+    font-size: 16px;
   }
   .weui_grid_label{
     color: #333;
-    font-size: 12px;
   }
   .g_order_list{
     margin-top: 10px;

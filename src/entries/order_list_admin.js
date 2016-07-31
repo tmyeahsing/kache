@@ -6,7 +6,7 @@ new Vue({
     data: {
         orders: [],
         statusCount: {
-            map: ['待接单', '待确认', '待维修', '待付款', '余欠款', '已完成'],
+            map: ['待接单', '待确认', '待维修', '待付款', '已完成'],
             count: {}
         },
         now: undefined,
@@ -22,7 +22,7 @@ new Vue({
         $.promiseAjax({
             url: '/api/order/count',
             data: {
-                status: [0, 1, 2, 3, 4, 5]
+                status: [0, 1, 2, 3, 4,]
             }
         }).then(data => this.statusCount.count = data.data).catch(err => console.log(err));
 
@@ -31,8 +31,8 @@ new Vue({
         }).then(function(data){
             self.now = (+new Date(data.iso));
             var _countDown = setInterval(function(){
-                self.now += 1000;
-            }, 1000);
+                self.now += 30000;
+            }, 30000);
         }).catch(err => console.log(err));
     },
     methods: {
@@ -60,12 +60,12 @@ new Vue({
                 return '<p class="color-yellow">已超时</p>'
             }else{
                 var _str = '';
+                var _hour = '';
                 var _min = '';
-                var _sec = '';
                 value = Math.round(value/1000);
-                _min = bitTo2(parseInt(value/60));
-                _sec = bitTo2(value%60);
-                return '接单倒计时<p class="color-green">' + _min + ' : ' + _sec + '</p>';
+                _hour = bitTo2(parseInt(value/3600));
+                _min = bitTo2(Math.ceil((value%3600)/60));
+                return '接单倒计时<p class="color-green">' + _hour + ' : ' + _min + '</p>';
             }
         }
     }

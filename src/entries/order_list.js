@@ -16,9 +16,6 @@ new Vue({
             self.now = (+new Date(data.iso));
             var _countDown = setInterval(function(){
                 self.now += 1000;
-                if(self.now <= 0){
-                    clearInterval(_countDown);
-                }
             }, 1000);
         }).catch(err => console.log(err));
     },
