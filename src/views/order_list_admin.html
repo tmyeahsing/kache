@@ -7,7 +7,7 @@
 	<title>kache</title>
 </head>
 <body ontouchstart>
-<div v-cloak id="main_contain" class="g_order_admin">
+<div v-cloak id="main_contain" class="g_order_list_admin">
     <search-bar :value.sync="keyword" placeholder="请输入订单号、手机号、姓名"></search-bar>
 
     <div class="weui_panel weui_panel_access">
@@ -48,12 +48,12 @@
             </div>
             <div class="weui_panel_hd weui_cell">
                 <div class="weui_cell_primary" v-if="order.status == 0">
-                    {{{now | countDown order.updatedAt (24*60*60*1000) | countDownText}}}
+                    {{{now | countDown order.updatedAt (30*60*1000) | countDownText}}}
                 </div>
                 <div class="weui_cell_primary" v-else>
                     预估费用:150元
                 </div>
-                <div class="weui_cell_ft" v-if="now && ((new Date(now) - new Date(order.updatedAt)) <= 24*60*60*1000)">
+                <div class="weui_cell_ft" v-if="now && ((new Date(now) - new Date(order.updatedAt)) <= 30*60*1000)">
                     <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">接单给报价</a>
                 </div>
             </div>

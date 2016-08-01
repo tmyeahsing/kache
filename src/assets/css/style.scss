@@ -172,9 +172,6 @@ html,body{
     text-align: right;
   }
   .price_list{
-    .weui_panel_hd{
-      color: #333;
-    }
     .weui_panel_bd{
       padding: 10px 0;
     }
@@ -183,7 +180,6 @@ html,body{
     }
     ul{
       font-size: .9em;
-      color: #999;
     }
     li{
       display: block;
@@ -199,7 +195,7 @@ html,body{
   }
 }
 
-.g_order_admin{
+.g_order_list_admin{
   .weui_grid{
     width: 20%;
   }
@@ -214,5 +210,56 @@ html,body{
   }
   .g_order_list{
     margin-top: 10px;
+  }
+}
+
+.g_order_detail_admin{
+  padding-bottom: 58px;
+  .signer_info, .machine_info{
+    li{
+      display: block;
+    }
+    .weui_cell{
+      font-size: .9em;
+      padding: 5px 15px;
+    }
+    .weui_panel_bd{
+      padding: 10px 0;
+    }
+    .weui_cell_ft{
+      img{
+        width: 32px;
+        vertical-align: bottom;
+      }
+    }
+  }
+  .action_bar{
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    box-shadow: -5px 0 10px #ccc;
+    .weui_cells{
+      margin-top: 0;
+      height: 48px;
+    }
+    .weui_cell{
+      padding: 0 15px;
+    }
+    .weui_cell_bd{
+      font-size: .7em;
+      line-height: 48px;
+      color: $red;
+      .weui_icon_warn{
+        font-size: 14px;
+        &:before{
+          font-size: 18px;
+        }
+      }
+    }
+    .weui_btn{
+      vertical-align: middle;
+      margin-top: 0;
+    }
   }
 }

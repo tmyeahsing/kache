@@ -53,14 +53,24 @@
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            报修人:
+                            报修人:&emsp;
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            联系电话:{{order.createdBy.myMobilePhoneNumber}}
+                            联系电话:&emsp;{{order.createdBy.myMobilePhoneNumber}}
+                        </div>
+                        <div class="weui_cell_ft">
+                            <a href="tel:{{order.createdBy.myMobilePhoneNumber}}"><img src="../assets/images/phone.png" alt=""/></a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            报修时间:&emsp;{{order.updatedAt | date}}
                         </div>
                         <div class="weui_cell_ft">
 
@@ -70,17 +80,7 @@
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            报修时间:{{order.updatedAt | date}}
-                        </div>
-                        <div class="weui_cell_ft">
-
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="weui_cell">
-                        <div class="weui_cell_primary">
-                            欠我厂总费用:
+                            欠我厂总费用:&emsp;
                         </div>
                         <div class="weui_cell_ft">
 
@@ -89,85 +89,57 @@
                 </li>
             </ul>
         </div>
-        <div class="weui_panel_ft">
-            <p>总费用:750元</p>
-            <p>下单时间:2015-08-27 14:00:22</p>
-        </div>
     </div>
 
-    <div class="weui_panel price_list">
+    <div class="weui_panel machine_info">
         <div class="weui_panel_hd">
-            报价清单
+            车辆信息
         </div>
         <div class="weui_panel_bd">
             <ul>
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            工时 * 30（10元/时）
-                        </div>
-                        <div class="weui_cell_ft">
-                            300元
+                            车辆型号:&emsp;
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            上门费
+                            车牌号:&emsp;
                         </div>
                         <div class="weui_cell_ft">
-                            100元
+
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            配件
+                            隶属车队:&emsp;
                         </div>
                         <div class="weui_cell_ft">
-                            350元
+
                         </div>
                     </div>
-                    <ul>
-                        <li>
-                            <div class="weui_cell">
-                                <div class="weui_cell_primary">
-                                    防冻吸尘管
-                                </div>
-                                <div class="weui_cell_ft">
-                                    150元
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="weui_cell">
-                                <div class="weui_cell_primary">
-                                    天然气滤清器
-                                </div>
-                                <div class="weui_cell_ft">
-                                    100元
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="weui_cell">
-                                <div class="weui_cell_primary">
-                                    颇尔滤芯UE299A
-                                </div>
-                                <div class="weui_cell_ft">
-                                    100元
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </div>
-        <div class="weui_panel_ft">
-            <p>总费用:750元</p>
-            <p>下单时间:2015-08-27 14:00:22</p>
+    </div>
+
+    <div class="action_bar">
+        <div class="weui_cells">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <i class="weui_icon_warn"></i>
+                    <span>该报修人有欠款记录</span>
+                </div>
+                <div class="weui_cell_ft">
+                    <a href="javascript:;" class="weui_btn weui_btn_default weui_btn_mini">拒单</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_primary weui_btn_mini">接单给报价</a>
+                </div>
+            </div>
         </div>
     </div>
 
