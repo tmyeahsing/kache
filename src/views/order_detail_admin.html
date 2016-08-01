@@ -137,9 +137,52 @@
                 </div>
                 <div class="weui_cell_ft">
                     <a href="javascript:;" class="weui_btn weui_btn_default weui_btn_mini">拒单</a>
-                    <a href="javascript:;" class="weui_btn weui_btn_primary weui_btn_mini">接单给报价</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_primary weui_btn_mini" @click="showPriceFormulator">接单给报价</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="g_price_formulator animated" v-show="isPriceFormulatorShown" transition="zoom"
+         @touchmove="priceFormulatorTouch">
+        <div class="weui_cells_title"><i class="weui_icon_info_circle"></i>若无具体维修项目，可不用填写</div>
+
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">上门费</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入上门费" v-model="dropInFee" number>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">维修工时</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入维修工时" v-model="manHours" number>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">工时单价</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入工时单价" v-model="manUnitPrice" number>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">配件总价</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入配件总价" v-model="partsTotal" number>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="请输入配件详细信息描述" rows="3" v-model="partsDesc"></textarea>
+                    <div class="weui_textarea_counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_default" href="javascript:" @click="hidePriceFormulator">取消</a>
+            <a class="weui_btn weui_btn_primary" href="javascript:" @click="takeOrder">确认接单</a>
         </div>
     </div>
 
