@@ -1,27 +1,28 @@
 'use strict'
 /*wx.config({
-    debug: true, // ¿ªÆôµ÷ÊÔÄ£Ê½,µ÷ÓÃµÄËùÓĞapiµÄ·µ»ØÖµ»áÔÚ¿Í»§¶Ëalert³öÀ´£¬ÈôÒª²é¿´´«ÈëµÄ²ÎÊı£¬¿ÉÒÔÔÚpc¶Ë´ò¿ª£¬²ÎÊıĞÅÏ¢»áÍ¨¹ılog´ò³ö£¬½öÔÚpc¶ËÊ±²Å»á´òÓ¡¡£
-    appId: 'wxa196eef9e5f0511c', // ±ØÌî£¬¹«ÖÚºÅµÄÎ¨Ò»±êÊ¶
-    timestamp: new Date(), // ±ØÌî£¬Éú³ÉÇ©ÃûµÄÊ±¼ä´Á
-    nonceStr: '', // ±ØÌî£¬Éú³ÉÇ©ÃûµÄËæ»ú´®
-    signature: '',// ±ØÌî£¬Ç©Ãû£¬¼û¸½Â¼1
-    jsApiList: ['getLocation'] // ±ØÌî£¬ĞèÒªÊ¹ÓÃµÄJS½Ó¿ÚÁĞ±í£¬ËùÓĞJS½Ó¿ÚÁĞ±í¼û¸½Â¼2
+    debug: true, // å¼€å¯è°ƒè¯•æ¨¡å¼,è°ƒç”¨çš„æ‰€æœ‰apiçš„è¿”å›å€¼ä¼šåœ¨å®¢æˆ·ç«¯alertå‡ºæ¥ï¼Œè‹¥è¦æŸ¥çœ‹ä¼ å…¥çš„å‚æ•°ï¼Œå¯ä»¥åœ¨pcç«¯æ‰“å¼€ï¼Œå‚æ•°ä¿¡æ¯ä¼šé€šè¿‡logæ‰“å‡ºï¼Œä»…åœ¨pcç«¯æ—¶æ‰ä¼šæ‰“å°ã€‚
+    appId: 'wxa196eef9e5f0511c', // å¿…å¡«ï¼Œå…¬ä¼—å·çš„å”¯ä¸€æ ‡è¯†
+    timestamp: new Date(), // å¿…å¡«ï¼Œç”Ÿæˆç­¾åçš„æ—¶é—´æˆ³
+    nonceStr: '', // å¿…å¡«ï¼Œç”Ÿæˆç­¾åçš„éšæœºä¸²
+    signature: '',// å¿…å¡«ï¼Œç­¾åï¼Œè§é™„å½•1
+    jsApiList: ['getLocation'] // å¿…å¡«ï¼Œéœ€è¦ä½¿ç”¨çš„JSæ¥å£åˆ—è¡¨ï¼Œæ‰€æœ‰JSæ¥å£åˆ—è¡¨è§é™„å½•2
 });
 
 wx.ready(function(data){
     console.log(data)
     wx.getLocation({
-        type: 'wgs84', // Ä¬ÈÏÎªwgs84µÄgps×ø±ê£¬Èç¹ûÒª·µ»ØÖ±½Ó¸øopenLocationÓÃµÄ»ğĞÇ×ø±ê£¬¿É´«Èë'gcj02'
+        type: 'wgs84', // é»˜è®¤ä¸ºwgs84çš„gpsåæ ‡ï¼Œå¦‚æœè¦è¿”å›ç›´æ¥ç»™openLocationç”¨çš„ç«æ˜Ÿåæ ‡ï¼Œå¯ä¼ å…¥'gcj02'
         success: function (res) {
             console.log(res.latitude)
-            var latitude = res.latitude; // Î³¶È£¬¸¡µãÊı£¬·¶Î§Îª90 ~ -90
-            var longitude = res.longitude; // ¾­¶È£¬¸¡µãÊı£¬·¶Î§Îª180 ~ -180¡£
-            var speed = res.speed; // ËÙ¶È£¬ÒÔÃ×/Ã¿Ãë¼Æ
-            var accuracy = res.accuracy; // Î»ÖÃ¾«¶È
+            var latitude = res.latitude; // çº¬åº¦ï¼Œæµ®ç‚¹æ•°ï¼ŒèŒƒå›´ä¸º90 ~ -90
+            var longitude = res.longitude; // ç»åº¦ï¼Œæµ®ç‚¹æ•°ï¼ŒèŒƒå›´ä¸º180 ~ -180ã€‚
+            var speed = res.speed; // é€Ÿåº¦ï¼Œä»¥ç±³/æ¯ç§’è®¡
+            var accuracy = res.accuracy; // ä½ç½®ç²¾åº¦
         }
     });
 })*/
 
+import {bitTo2} from './utils.js'
 $.promiseAjax({
     url: 'https://api.leancloud.cn/1.1/classes/Order/' + UrlParams.id,
     beforeSend(xhr, setting){
@@ -31,7 +32,7 @@ $.promiseAjax({
     },
     contentType: 'application/json',
     data: {
-        include: 'createdBy'
+        include: 'createdBy, quotation'
     }
 }).catch(function(err){
 
@@ -40,13 +41,38 @@ $.promiseAjax({
         el: '#main_contain',
         data: {
             order: data,
-            statusMap: OrderStatusMap
+            statusMap: OrderStatusMap,
+            now: undefined
         },
         created(){
             var self = this;
+
+            $.promiseAjax({
+                url: 'https://api.leancloud.cn/1.1/date'
+            }).then(function(data){
+                self.now = (+new Date(data.iso));
+                var _countDown = setInterval(function(){
+                    self.now += 1000;
+                }, 1000);
+            }).catch(err => console.log(err));
         },
         methods: {
 
+        },
+        filters: {
+            countDownText(value){
+                if(value <= 0){
+                    return '<p class="color_red">å·²è¶…æ—¶</p>'
+                }else{
+                    var _str = '';
+                    var _min = '';
+                    var _sec = '';
+                    value = Math.round(value/1000);
+                    _min = bitTo2(parseInt(value/60));
+                    _sec = bitTo2(value%60);
+                    return 'æ¥å•å€’è®¡æ—¶<p class="color_green">' + _min + ' : ' + _sec + '</p>';
+                }
+            }
         }
     })
 })

@@ -5,8 +5,9 @@ new Vue({
     el: '#main_contain',
     data: {
         orders: [],
+        statusMap: ['待接单', '待维修', '待确认', '待付款', '已完成'],
         statusCount: {
-            map: ['待接单', '待确认', '待维修', '待付款', '已完成'],
+            map: ['待接单', '待维修', '待确认', '待付款', '已完成'],
             count: {}
         },
         now: undefined,
@@ -47,7 +48,8 @@ new Vue({
                 },
                 data: {
                     order: '-updatedAt',
-                    include: 'createdBy'
+                    include: 'createdBy, quotation',
+                    limit: 10
                 }
             }).catch(function(err){
 
@@ -57,7 +59,7 @@ new Vue({
     filters: {
         countDownText(value){
             if(value <= 0){
-                return '<p class="color-yellow">已超时</p>'
+                return '<p class="color_red">已超时</p>'
             }else{
                 var _str = '';
                 var _min = '';
@@ -65,7 +67,7 @@ new Vue({
                 value = Math.round(value/1000);
                 _min = bitTo2(parseInt(value/60));
                 _sec = bitTo2(value%60);
-                return '接单倒计时<p class="color-green">' + _min + ' : ' + _sec + '</p>';
+                return '接单倒计时<p class="color_green">' + _min + ' : ' + _sec + '</p>';
             }
         }
     }

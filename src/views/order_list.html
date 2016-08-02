@@ -12,7 +12,7 @@
         <div class="weui_panel_hd weui_cell">
             <div class="weui_cell_primary order_date">报修时间：{{order.updatedAt | date}}</div>
             <div class="weui_cell_ft status_pending">
-                待接单
+                {{statusMap[order.status]}}
             </div>
         </div>
         <div class="weui_panel_bd">
@@ -28,15 +28,34 @@
             </a>
         </div>
         <div class="weui_panel_hd weui_cell">
-            <div class="weui_cell_primary" v-if="order.status == 0">
-                {{{now | countDown order.updatedAt (30*60*1000) | countDownText}}}
-            </div>
-            <div class="weui_cell_primary" v-else>
-                预估费用:150元
-            </div>
-            <div class="weui_cell_ft" v-if="now && ((new Date(now) - new Date(order.updatedAt)) <= 30*60*1000)">
-                <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
-            </div>
+            <template v-if="order.status == 0">
+                <div class="weui_cell_primary">
+                    <template v-if="!order.quotation">
+                        {{{now | countDown order.createdAt (30*60*1000) | countDownText}}}
+                    </template>
+                    <template v-else>
+                        预估费用:<p><span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
+                    </template>
+                </div>
+                <div class="weui_cell_ft">
+                    <template v-if="!order.quotation">
+                        <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:" v-if="now && ((new Date(now) - new Date(order.createdAt)) <= 30*60*1000)">取消订单</a>
+                    </template>
+                    <template v-else>
+                        <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
+                        <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
+                    </template>
+                </div>
+            </template>
+            <template v-if="order.status == 1">
+                <div class="weui_cell_primary">
+                    预估费用:<p><span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
+                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
+                </div>
+            </template>
         </div>
     </div>
 

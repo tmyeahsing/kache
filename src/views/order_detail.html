@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="weui_panel price_list">
+    <div class="weui_panel price_list" v-if="order.quotation">
         <div class="weui_panel_hd">
             报价清单
         </div>
@@ -64,10 +64,10 @@
                 <li>
                     <div class="weui_cell">
                         <div class="weui_cell_primary">
-                            工时 * 30（10元/时）
+                            工时 * {{order.quotation.manHours}}({{order.quotation.manUnitPrice}}元/时)
                         </div>
                         <div class="weui_cell_ft">
-                            300元
+                            {{order.quotation.manHours*order.quotation.manUnitPrice}}元
                         </div>
                     </div>
                 </li>
@@ -77,7 +77,7 @@
                             上门费
                         </div>
                         <div class="weui_cell_ft">
-                            100元
+                            {{order.quotation.dropInFee}}元
                         </div>
                     </div>
                 </li>
@@ -87,10 +87,10 @@
                             配件
                         </div>
                         <div class="weui_cell_ft">
-                            350元
+                            {{order.quotation.partsTotal}}元
                         </div>
                     </div>
-                    <ul>
+                    <!--<ul>
                         <li>
                             <div class="weui_cell">
                                 <div class="weui_cell_primary">
@@ -121,13 +121,58 @@
                                 </div>
                             </div>
                         </li>
-                    </ul>
+                    </ul>-->
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            <span class="color_yellow">配件详细描述：</span>{{order.quotation.partsDesc}}
+                        </div>
+                        <div class="weui_cell_ft">
+
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
         <div class="weui_panel_ft">
-            <p>总费用:750元</p>
-            <p>下单时间:2015-08-27 14:00:22</p>
+            <p>总费用:<span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
+        </div>
+    </div>
+
+    <div class="action_bar">
+        <div class="weui_cells">
+            <div class="weui_cell">
+                <template v-if="order.status == 0">
+                    <div class="weui_cell_primary">
+                        <template v-if="!order.quotation">
+                            <div class="vm_text">
+                                <div class="count_down">
+                                    {{{now | countDown order.createdAt (30*60*1000) | countDownText}}}
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <template v-if="!order.quotation">
+                            <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:" v-if="now && ((new Date(now) - new Date(order.createdAt)) <= 30*60*1000)">取消订单</a>
+                        </template>
+                        <template v-else>
+                            <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
+                            <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
+                        </template>
+                    </div>
+                </template>
+                <template v-if="order.status == 1">
+                    <div class="weui_cell_primary">
+                        预估费用:<p><span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:">取消订单</a>
+                        <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">确认下单维修</a>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 

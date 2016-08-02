@@ -1,5 +1,7 @@
 'use strict'
 
+import {bitTo2} from './utils.js'
+
 Vue.transition('zoom', {
     enterClass: 'zoomIn',
     leaveClass: 'zoomOut'
@@ -14,7 +16,7 @@ $.promiseAjax({
     },
     contentType: 'application/json',
     data: {
-        include: 'createdBy'
+        include: 'createdBy, quotation'
     }
 }).catch(function(err){
 
@@ -29,10 +31,20 @@ $.promiseAjax({
             manHours: undefined,
             manUnitPrice: undefined,
             partsTotal: undefined,
-            partsDesc: ''
+            partsDesc: '',
+            now: undefined
         },
         created(){
             var self = this;
+
+            $.promiseAjax({
+                url: 'https://api.leancloud.cn/1.1/date'
+            }).then(function(data){
+                self.now = (+new Date(data.iso));
+                var _countDown = setInterval(function(){
+                    self.now += 1000;
+                }, 1000);
+            }).catch(err => console.log(err));
         },
         methods: {
             showPriceFormulator(){
@@ -46,6 +58,7 @@ $.promiseAjax({
             },
             takeOrder(){
                 var self = this;
+                ToastHandler.showLoading('操作处理中...');
                 $.promiseAjax({
                     url: '/api/order/take',
                     type: 'put',
@@ -58,10 +71,33 @@ $.promiseAjax({
                         order_object_id: UrlParams.id
                     }
                 }).then(function(data){
-                    console.log(data)
+                    ToastHandler.hideLoading();
+                    if(data.success){
+                        ToastHandler.showToast('操作成功');
+                        self.order.quotation = data.data.quotation;
+                        self.hidePriceFormulator();
+                    }else{
+
+                    }
                 }).catch(function(err){
+                    ToastHandler.hideLoading();
                     console.log(JSON.parse(err.responseText));
                 })
+            }
+        },
+        filters: {
+            countDownText(value){
+                if(value <= 0){
+                    return '<p class="color_red">已超时</p>'
+                }else{
+                    var _str = '';
+                    var _min = '';
+                    var _sec = '';
+                    value = Math.round(value/1000);
+                    _min = bitTo2(parseInt(value/60));
+                    _sec = bitTo2(value%60);
+                    return '接单倒计时<p class="color_green">' + _min + ' : ' + _sec + '</p>';
+                }
             }
         }
     })

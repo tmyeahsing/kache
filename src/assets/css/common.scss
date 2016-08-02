@@ -29,11 +29,15 @@ a:hover{
   display: none;
 }
 
-.color-yellow{
+.color_yellow{
+  color: $yellow;
+}
+
+.color_red{
   color: $red;
 }
 
-.color-green{
+.color_green{
   color: $green;
 }
 

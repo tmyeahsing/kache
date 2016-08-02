@@ -130,6 +130,7 @@ html,body{
 }
 
 .g_order_detail{
+  padding-bottom: 58px;
   .order_urgent{
     .order_date:before{
       content: '应急';
@@ -193,6 +194,53 @@ html,body{
       padding: 5px 15px;
     }
   }
+  .action_bar{
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    box-shadow: -5px 0 10px #ccc;
+    .weui_cells{
+      margin-top: 0;
+      height: 48px;
+    }
+    .weui_cell{
+      padding: 0 15px;
+    }
+    .weui_cell_primary{
+      font-size: .7em;
+      height: 48px;
+      &:before{
+        content: '';
+        line-height: 48px;
+        height: 48px;
+        vertical-align: middle;
+      }
+      .vm_text{
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 13px;
+      }
+      .weui_icon_warn{
+        font-size: 12px;
+        &:before{
+          font-size: 18px;
+        }
+        +span{
+          vertical-align: middle;
+        }
+      }
+    }
+    .weui_btn{
+      vertical-align: middle;
+      margin-top: 0;
+    }
+    .count_down{
+      display: inline-block;
+      vertical-align: middle;
+      color: #999;
+    }
+  }
 }
 
 .g_order_list_admin{
@@ -214,7 +262,6 @@ html,body{
 }
 
 .g_order_detail_admin{
-  padding-bottom: 58px;
   .signer_info, .machine_info{
     li{
       display: block;
@@ -231,35 +278,6 @@ html,body{
         width: 32px;
         vertical-align: bottom;
       }
-    }
-  }
-  .action_bar{
-    position: fixed;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    box-shadow: -5px 0 10px #ccc;
-    .weui_cells{
-      margin-top: 0;
-      height: 48px;
-    }
-    .weui_cell{
-      padding: 0 15px;
-    }
-    .weui_cell_bd{
-      font-size: .7em;
-      line-height: 48px;
-      color: $red;
-      .weui_icon_warn{
-        font-size: 14px;
-        &:before{
-          font-size: 18px;
-        }
-      }
-    }
-    .weui_btn{
-      vertical-align: middle;
-      margin-top: 0;
     }
   }
 }

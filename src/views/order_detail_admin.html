@@ -128,17 +128,114 @@
         </div>
     </div>
 
+    <div class="weui_panel price_list" v-if="order.quotation">
+        <div class="weui_panel_hd">
+            报价清单
+        </div>
+        <div class="weui_panel_bd">
+            <ul>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            工时 * {{order.quotation.manHours}}({{order.quotation.manUnitPrice}}元/时)
+                        </div>
+                        <div class="weui_cell_ft">
+                            {{order.quotation.manHours*order.quotation.manUnitPrice}}元
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            上门费
+                        </div>
+                        <div class="weui_cell_ft">
+                            {{order.quotation.dropInFee}}元
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            配件
+                        </div>
+                        <div class="weui_cell_ft">
+                            {{order.quotation.partsTotal}}元
+                        </div>
+                    </div>
+                    <!--<ul>
+                        <li>
+                            <div class="weui_cell">
+                                <div class="weui_cell_primary">
+                                    防冻吸尘管
+                                </div>
+                                <div class="weui_cell_ft">
+                                    150元
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="weui_cell">
+                                <div class="weui_cell_primary">
+                                    天然气滤清器
+                                </div>
+                                <div class="weui_cell_ft">
+                                    100元
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="weui_cell">
+                                <div class="weui_cell_primary">
+                                    颇尔滤芯UE299A
+                                </div>
+                                <div class="weui_cell_ft">
+                                    100元
+                                </div>
+                            </div>
+                        </li>
+                    </ul>-->
+                </li>
+                <li>
+                    <div class="weui_cell">
+                        <div class="weui_cell_primary">
+                            <span class="color_yellow">配件详细描述：</span>{{order.quotation.partsDesc}}
+                        </div>
+                        <div class="weui_cell_ft">
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="weui_panel_ft">
+            <p>总费用:<span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
+        </div>
+    </div>
+
     <div class="action_bar">
         <div class="weui_cells">
             <div class="weui_cell">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <i class="weui_icon_warn"></i>
-                    <span>该报修人有欠款记录</span>
-                </div>
-                <div class="weui_cell_ft">
-                    <a href="javascript:;" class="weui_btn weui_btn_default weui_btn_mini">拒单</a>
-                    <a href="javascript:;" class="weui_btn weui_btn_primary weui_btn_mini" @click="showPriceFormulator">接单给报价</a>
-                </div>
+                <template v-if="order.status == 0">
+                    <div class="weui_cell_primary">
+                        <div class="vm_text">
+                            <template v-if="!order.quotation">
+                                <div class="count_down">
+                                    {{{now | countDown order.createdAt (30*60*1000) | countDownText}}}
+                                </div>
+                            </template>
+                            <template v-else>
+                                <p class="color_yellow">已给出报价，耐心等待用户确认下单</p>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <template v-if="!order.quotation">
+                            <a class="weui_btn weui_btn_default weui_btn_mini" href="javascript:" v-if="now && ((new Date(now) - new Date(order.createdAt)) <= 30*60*1000)">拒单</a>
+                            <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" v-if="now && ((new Date(now) - new Date(order.createdAt)) <= 30*60*1000)" @click="showPriceFormulator">接单给报价</a>
+                        </template>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -174,7 +271,7 @@
             </div>
             <div class="weui_cell">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <textarea class="weui_textarea" placeholder="请输入配件详细信息描述" rows="3" v-model="partsDesc"></textarea>
+                    <textarea class="weui_textarea" placeholder="请输入配件详细描述" rows="3" v-model="partsDesc"></textarea>
                     <div class="weui_textarea_counter"><span>0</span>/200</div>
                 </div>
             </div>
