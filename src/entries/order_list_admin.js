@@ -5,7 +5,7 @@ new Vue({
     el: '#main_contain',
     data: {
         orders: [],
-        statusMap: ['待接单', '待维修', '待确认', '待付款', '已完成'],
+        statusMap: OrderStatusMap,
         statusCount: {
             map: ['待接单', '待维修', '待确认', '待付款', '已完成'],
             count: {}

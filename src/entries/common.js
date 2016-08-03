@@ -72,7 +72,11 @@ window.UrlParams = getUrlParams();
 
 //单据状态
 window.OrderStatusMap = {
-    0: '待接单'
+    0: '待接单',
+    1: '待维修',
+    2: '待确认',
+    3: '待付款',
+    4: '已完成'
 }
 
 //location params

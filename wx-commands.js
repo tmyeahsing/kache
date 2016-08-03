@@ -58,6 +58,15 @@ $.promiseAjax({
     }
 })
 
+//删除菜单
+$.promiseAjax({
+    url: '/api/wechat_menu',
+    type: 'delete',
+    success(data){
+        console.log(data)
+    }
+})
+
 //设置行业
 $.promiseAjax({
     url: '/api/wechat_template/industry',

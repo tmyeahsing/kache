@@ -4,7 +4,7 @@ new Vue({
     el: '#main_contain',
     data: {
         orders: [],
-        statusMap: ['待接单', '待确认', '待维修', '待付款', '已完成'],
+        statusMap: OrderStatusMap,
         now: undefined
     },
     created(){

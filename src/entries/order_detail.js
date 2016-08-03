@@ -57,7 +57,26 @@ $.promiseAjax({
             }).catch(err => console.log(err));
         },
         methods: {
-
+            confirmOrder(){
+                var self = this;
+                ToastHandler.showLoading('正在确认...');
+                $.promiseAjax({
+                    url: '/api/order/confirm',
+                    type: 'put',
+                    data: {
+                        order_object_id: UrlParams.id
+                    }
+                }).then(function(data){
+                    if(data.success){
+                        ToastHandler.hideLoading();
+                        ToastHandler.showToast('操作成功');
+                        self.order.status = 1;
+                    }
+                }).catch(function(err){
+                    ToastHandler.hideLoading();
+                    console.log(err)
+                })
+            }
         },
         filters: {
             countDownText(value){
