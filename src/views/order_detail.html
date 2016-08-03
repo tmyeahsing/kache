@@ -163,6 +163,13 @@
                         </template>
                     </div>
                 </template>
+                <template v-if="order.status == 1">
+                    <div class="weui_cell_primary">
+                        <div class="vm_text">
+                            修理厂已开始处理您的订单，请保持电话畅通。
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
