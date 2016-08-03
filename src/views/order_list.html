@@ -49,10 +49,7 @@
             </template>
             <template v-if="order.status == 1">
                 <div class="weui_cell_primary">
-                    预估费用:<p><span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal}}</span>元</p>
-                </div>
-                <div class="weui_cell_ft">
-
+                    <p class="color_yellow">修理厂已开始处理您的订单，请保持电话畅通。</p>
                 </div>
             </template>
         </div>

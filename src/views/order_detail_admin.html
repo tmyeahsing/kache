@@ -236,6 +236,13 @@
                         </template>
                     </div>
                 </template>
+                <template v-if="order.status == 1">
+                    <div class="weui_cell_primary"></div>
+                    <div class="weui_cell_ft">
+                        <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:"
+                           @click="showPriceFormulator">维修完成</a>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
