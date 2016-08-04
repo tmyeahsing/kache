@@ -83,6 +83,9 @@ $.promiseAjax({
                     ToastHandler.hideLoading();
                     console.log(JSON.parse(err.responseText));
                 })
+            },
+            fixDone(){
+
             }
         },
         filters: {
