@@ -15,7 +15,8 @@ module.exports = {
     alias: {
       'src': path.resolve(__dirname, '../src'),
       'js': path.resolve(__dirname, '../src/assets/js'),
-      'css': path.resolve(__dirname, '../src/assets/css')
+      'css': path.resolve(__dirname, '../src/assets/css'),
+	  'jquery': 'js/jquery.min.js'
     }
   },
   resolveLoader: {
