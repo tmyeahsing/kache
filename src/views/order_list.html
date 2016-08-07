@@ -52,6 +52,16 @@
                     <p class="color_yellow">修理厂已开始处理您的订单，请保持电话畅通。</p>
                 </div>
             </template>
+            <template v-if="order.status == 2">
+                <div class="weui_cell_primary">
+
+                </div>
+                <div class="weui_cell_ft">
+                    <a class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:">
+                        确认维修完成</a>
+                </div>
+            </template>
+
         </div>
     </div>
 

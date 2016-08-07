@@ -243,6 +243,13 @@
                            @click="fixDone">维修完成</a>
                     </div>
                 </template>
+                <template v-if="order.status == 2">
+                    <div class="weui_cell_primary">
+                        <div class="vm_text color_yellow">
+                            修理已完成,等待付款。
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>

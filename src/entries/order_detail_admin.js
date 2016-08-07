@@ -85,7 +85,27 @@ $.promiseAjax({
                 })
             },
             fixDone(){
+                var self = this;
+                ToastHandler.showLoading('操作处理中...');
+                $.promiseAjax({
+                    url: '/api/order/fix_done',
+                    type: 'put',
+                    data: {
+                        order_object_id: UrlParams.id
+                    }
+                }).then(function(data){
+                    ToastHandler.hideLoading();
+                    if(data.success){
+                        ToastHandler.showToast('操作成功');
+                        self.order.status = data.data.status;
+                        self.hidePriceFormulator();
+                    }else{
 
+                    }
+                }).catch(function(err){
+                    ToastHandler.hideLoading();
+                    console.log(JSON.parse(err.responseText));
+                })
             }
         },
         filters: {
