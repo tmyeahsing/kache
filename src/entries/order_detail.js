@@ -76,6 +76,40 @@ $.promiseAjax({
                     ToastHandler.hideLoading();
                     console.log(err)
                 })
+            },
+            confirmFixed(){
+                var self = this;
+                ToastHandler.showLoading('操作处理中...');
+                $.promiseAjax({
+                    url: '/api/order/confirm_fixed',
+                    type: 'put',
+                    data: {
+                        order_object_id: UrlParams.id
+                    }
+                }).then(function(data){
+                    if(data.success){
+                        ToastHandler.hideLoading();
+                        ToastHandler.showToast('操作成功');
+                        self.order.status = 3;
+                    }
+                }).catch(function(err){
+                    ToastHandler.hideLoading();
+                    console.log(err)
+                })
+            },
+            payLeft(){
+                WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                        "appId" : "wx2421b1c4370ec43b",
+                        "timeStamp":" 1395712654",
+                        "nonceStr" : "e61463f8efa94090b1f366cccfbbb444",
+                        "package" : "prepay_id=u802345jgfjsdfgsdg888",
+                        "signType" : "MD5",
+                        "paySign" : "70EA570631E4BB79628FBCA90534C63FF7FADD89"
+                    },
+                    function(res){
+                        if(res.err_msg == "get_brand_wcpay_request：ok" ) {}
+                    }
+                );
             }
         },
         filters: {
