@@ -6,6 +6,17 @@ function bitTo2(value){
     return str.substr(-2, 2);
 }
 
+function getJssdkConfig(apiList){
+    return $.promiseAjax({
+        url: '/api/wechat_js/config',
+        data: {
+            url: location.href.split('#')[0],
+            api_list: apiList
+        }
+    })
+}
+
 export {
-    bitTo2
+    bitTo2,
+    getJssdkConfig
 }

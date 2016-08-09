@@ -1,28 +1,6 @@
 'use strict'
-/*wx.config({
-    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: 'wxa196eef9e5f0511c', // 必填，公众号的唯一标识
-    timestamp: new Date(), // 必填，生成签名的时间戳
-    nonceStr: '', // 必填，生成签名的随机串
-    signature: '',// 必填，签名，见附录1
-    jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-});
+import {bitTo2, getJssdkConfig} from './utils.js'
 
-wx.ready(function(data){
-    console.log(data)
-    wx.getLocation({
-        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        success: function (res) {
-            console.log(res.latitude)
-            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-            var speed = res.speed; // 速度，以米/每秒计
-            var accuracy = res.accuracy; // 位置精度
-        }
-    });
-})*/
-
-import {bitTo2} from './utils.js'
 $.promiseAjax({
     url: 'https://api.leancloud.cn/1.1/classes/Order/' + UrlParams.id,
     beforeSend(xhr, setting){
@@ -42,6 +20,7 @@ $.promiseAjax({
         data: {
             order: data,
             statusMap: OrderStatusMap,
+            location: '地址获取中',
             now: undefined
         },
         created(){
@@ -55,6 +34,32 @@ $.promiseAjax({
                     self.now += 1000;
                 }, 1000);
             }).catch(err => console.log(err));
+
+            //获取jssdk配置，获取地址
+            getJssdkConfig(['getLocation']).then(function(config){
+                wx.config(config);
+                wx.ready(function(){
+                    wx.getLocation({
+                        type: 'gcj02',
+                        success: function(location){
+                            $.promiseAjax({
+                                url: 'http://apis.map.qq.com/ws/geocoder/v1/',
+                                data: {
+                                    location: location.latitude + ',' + location.longitude,
+                                    key: TMapKey,
+                                    output: 'jsonp'
+
+                                },
+                                dataType: 'jsonp'
+                            }).then(function(data){
+                                if(data.status == 0){
+                                    self.location = data.result.address;
+                                }
+                            })
+                        }
+                    })
+                })
+            })
         },
         methods: {
             confirmOrder(){
@@ -98,18 +103,7 @@ $.promiseAjax({
                 })
             },
             payLeft(){
-                WeixinJSBridge.invoke('getBrandWCPayRequest', {
-                        "appId" : "wx2421b1c4370ec43b",
-                        "timeStamp":" 1395712654",
-                        "nonceStr" : "e61463f8efa94090b1f366cccfbbb444",
-                        "package" : "prepay_id=u802345jgfjsdfgsdg888",
-                        "signType" : "MD5",
-                        "paySign" : "70EA570631E4BB79628FBCA90534C63FF7FADD89"
-                    },
-                    function(res){
-                        if(res.err_msg == "get_brand_wcpay_request：ok" ) {}
-                    }
-                );
+
             }
         },
         filters: {

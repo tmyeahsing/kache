@@ -7,6 +7,7 @@ import {bitTo2} from './utils.js'
 
 window.Vue = require('vue');
 window.jquery = window.$ = require('jquery');
+window.TMapKey = '5SZBZ-THVRF-KSYJR-NZ5IA-MVFSQ-TLFK2' //腾讯地图开发key
 
 //promisefy ajax
 $.extend($, {
