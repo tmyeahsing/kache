@@ -1,5 +1,6 @@
 'use strict'
 import {bitTo2, getJssdkConfig} from './utils.js'
+import actionSheet from '../components/actionsheet/actionsheet.vue'
 
 $.promiseAjax({
     url: 'https://api.leancloud.cn/1.1/classes/Order/' + UrlParams.id,
@@ -17,10 +18,21 @@ $.promiseAjax({
 }).then(function(data){
     new Vue({
         el: '#main_contain',
+        components: {
+            actionSheet: actionSheet
+        },
         data: {
             order: data,
             statusMap: OrderStatusMap,
             location: '地址获取中',
+            payActionSheetShown: false,
+            payMenus: {
+                'pay_by_cash': '现金支付'/*,
+                'pay_by_wechat': '微信支付'*/
+            },
+            payActions: {
+                'pay_cancel': '取消'
+            },
             now: undefined
         },
         created(){
@@ -35,7 +47,7 @@ $.promiseAjax({
                 }, 1000);
             }).catch(err => console.log(err));
 
-            //获取jssdk配置，获取地址
+            //jssdk配置，获取地址
             getJssdkConfig(['getLocation']).then(function(config){
                 wx.config(config);
                 wx.ready(function(){
@@ -96,6 +108,7 @@ $.promiseAjax({
                         ToastHandler.hideLoading();
                         ToastHandler.showToast('操作成功');
                         self.order.status = 3;
+                        self.payActionSheetShown = true;
                     }
                 }).catch(function(err){
                     ToastHandler.hideLoading();
@@ -103,7 +116,35 @@ $.promiseAjax({
                 })
             },
             payLeft(){
-
+                this.payActionSheetShown = true;
+            }
+        },
+        events: {
+            'weui-menu-click'(message){
+                var self = this;
+                switch(message){
+                    case 'pay_by_cash':
+                        ToastHandler.showLoading();
+                        $.promiseAjax({
+                            url: '/api/order/cash_pay',
+                            type: 'put',
+                            data: {
+                                order_object_id: UrlParams.id
+                            }
+                        }).then(function(data){
+                            ToastHandler.hideLoading();
+                            ToastHandler.showToast('操作成功');
+                            self.payActionSheetShown = false;
+                            self.order.cashConfirming = true;
+                        }).catch(function(err){
+                            ToastHandler.hideLoading();
+                            console.log(err)
+                        })
+                        break;
+                    default:
+                        console.log('暂不支持');
+                        break;
+                }
             }
         },
         filters: {

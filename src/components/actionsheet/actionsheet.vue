@@ -58,7 +58,6 @@
                 this.$dispatch(event, message);
                 switch (event) {
                     case 'weui-menu-click':
-                        console.log(message)
                         break;
                     case 'weui-action-click':
                         this.hideActionSheet();

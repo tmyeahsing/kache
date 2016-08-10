@@ -180,22 +180,33 @@
                     </div>
                 </template>
                 <template v-if="order.status == 3">
-                    <div class="weui_cell_primary">
-                        <div class="vm_text">
-                            <p>已支付&nbsp;<span class="color_yellow">{{order.quotation.payed || 0}}</span>&nbsp;元</p>
-                            <p v-if="(order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - (order.quotation.payed || 0)) > 0">账未结清，尚余欠款&nbsp;<span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - (order.quotation.payed || 0)}}</span>&nbsp;元</p>
-                            <p v-else class="color_green">
-                                账已结清
-                            </p>
+                    <template v-if="!order.cashConfirming">
+                        <div class="weui_cell_primary">
+                            <div class="vm_text">
+                                <p>已支付&nbsp;<span class="color_yellow">{{order.quotation.payed}}</span>&nbsp;元</p>
+                                <p v-if="(order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - order.quotation.payed) > 0">余欠款&nbsp;<span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - order.quotation.payed}}</span>&nbsp;元</p>
+                                <p v-else class="color_green">
+                                    账已结清
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="weui_cell_ft">
-                        <a v-if="(order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - (order.quotation.payed || 0)) > 0" class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="payLeft">支付余款</a>
-                    </div>
+                        <div class="weui_cell_ft">
+                            <a v-if="(order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - order.quotation.payed) > 0" class="weui_btn weui_btn_primary weui_btn_mini" href="javascript:" @click="payLeft">支付余款</a>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="weui_cell_primary">
+                            <div class="vm_text">
+                                <p class="color_yellow">已提报现金支付，等待维修厂确认</p>
+                            </div>
+                        </div>
+                    </template>
                 </template>
             </div>
         </div>
     </div>
+
+    <action-sheet :show.sync="payActionSheetShown" :menus="payMenus" :actions="payActions"></action-sheet>
 
     <div id="toastContainer">
         <toast v-ref:toast></toast>
