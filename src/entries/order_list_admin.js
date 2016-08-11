@@ -1,6 +1,6 @@
 'use strict'
 import searchBar from '../components/search-bar/search-bar.vue'
-import {bitTo2} from './utils.js'
+import {bitTo2} from './../assets/js/utils.js'
 new Vue({
     el: '#main_contain',
     data: {

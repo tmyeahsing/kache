@@ -1,5 +1,5 @@
 'use strict'
-import {bitTo2} from './utils.js'
+import {bitTo2} from './../assets/js/utils.js'
 new Vue({
     el: '#main_contain',
     data: {

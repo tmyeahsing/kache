@@ -1,12 +1,15 @@
 'use strict'
 require('css/common.scss');
 
-import toast from '../components/toast/toast.vue'
-import loadingToast from '../components/toast/loading-toast.vue'
-import {bitTo2} from './utils.js'
 
 window.Vue = require('vue');
 window.jquery = window.$ = require('jquery');
+
+import toast from '../components/toast/toast.vue'
+import loadingToast from '../components/toast/loading-toast.vue'
+import dialog from '../components/dialog/dialog.vue'
+import {bitTo2} from './../assets/js/utils.js'
+
 window.TMapKey = '5SZBZ-THVRF-KSYJR-NZ5IA-MVFSQ-TLFK2' //腾讯地图开发key
 
 //promisefy ajax
@@ -48,6 +51,12 @@ Vue.filter('countDown', function(value, from, gap){
     }
 });
 
+//vue过渡
+Vue.transition('zoom', {
+    enterClass: 'zoomIn',
+    leaveClass: 'zoomOut'
+});
+
 //global vue components
 window.ToastHandler = new Vue({
     el: '#toastContainer',
@@ -66,7 +75,59 @@ window.ToastHandler = new Vue({
             this.$refs.loading.hide();
         }
     }
-})
+});
+window.DialogHandler = new Vue({
+    el: '#dialogContainer',
+    data: {
+        show: false,
+        showType: 'alert',
+        title: '',  //标题
+        text: '',  //附加文本
+        content: ''  //prompt或confirm的内容
+    },
+    components: {
+        dialog: dialog
+    },
+    methods: {
+        noob(){
+            console.log(1)
+        },
+        callback(){
+            noob();
+        },
+        alert(title, text, cb){
+            this.showType = 'alert';
+            this.title = title;
+            this.text = text;
+            this.callback = (typeof cb === 'function') ? cb : this.noob;
+            this.show = true;
+        },
+        confirm(title, text, content, cb){
+            this.showType = 'confirm';
+            this.title = title;
+            this.text = text;
+            this.content = content;
+            this.callback = (typeof cb === 'function') ? cb : this.noob;
+            this.show = true;
+        },
+        prompt(title, text, content, cb){
+            this.showType = 'prompt';
+            this.title = title;
+            this.text = text;
+            this.content = content;
+            this.callback = (typeof cb === 'function') ? cb : this.noob;
+            this.show = true;
+        },
+        hide(){
+            this.show = false;
+        }
+    },
+    events: {
+        'weui-dialog-confirm'(message){
+            this.callback(this.content);
+        }
+    }
+});
 
 //location params
 window.UrlParams = getUrlParams();

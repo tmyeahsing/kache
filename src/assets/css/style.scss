@@ -330,3 +330,55 @@ html,body{
   padding: 14px 15px 10px;
   font-size: 12px;
 }
+
+.weui_dialog_confirm{
+  .weui_dialog_bd{
+    input{
+      display: block;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #e6e6e6;
+      background-color: transparent;
+      height: 30px;
+      line-height: 30px;
+      font-size: 16px;
+      -webkit-tap-highlight-color: transparent;
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}
+.weui_dialog_confirm, .weui_dialog_alert{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  text-align: center;
+  background-color: rgba(0,0,0,.6);
+  &:before{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+}
+.weui_dialog_show{
+  width: 100%;
+  height: 100%;
+  .weui_dialog{
+    -webkit-animation-duration:.5s;
+    animation-duration:.5s;
+  }
+}
+.weui_dialog{
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  transform: none;
+  left: 0;
+  top: 0;
+  -webkit-animation-duration: 0s;
+  animation-duration: 0s;
+}

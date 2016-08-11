@@ -1,5 +1,5 @@
 'use strict'
-import {bitTo2, getJssdkConfig} from './utils.js'
+import {bitTo2, getJssdkConfig} from './../assets/js/utils.js'
 import actionSheet from '../components/actionsheet/actionsheet.vue'
 
 $.promiseAjax({

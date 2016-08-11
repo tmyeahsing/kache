@@ -268,6 +268,17 @@
                         <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary" @click="incomeConfirm">已收款</a>
                     </div>
                 </template>
+                <template v-if="order.status == 4">
+                    <div class="weui_cell_primary">
+                        <div class="vm_text">
+                            <p>已支付&nbsp;<span class="color_yellow">{{order.quotation.payed}}</span>&nbsp;元</p>
+                            <p v-if="(order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - order.quotation.payed) > 0">余欠款&nbsp;<span class="color_yellow">{{order.quotation.dropInFee + (order.quotation.manHours*order.quotation.manUnitPrice) +order.quotation.partsTotal - order.quotation.payed}}</span>&nbsp;元</p>
+                            <p v-else class="color_green">
+                                账已结清
+                            </p>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -315,14 +326,17 @@
         </div>
     </div>
 
-    <dialog :show.sync="incomeConfirmShown" title="确认收款" type="confirm">
-        <p>收款金额:</p>
-        <p><input type="number" pattern="[0-9]*" v-model="income"/></p>
-    </dialog>
-
     <div id="toastContainer">
         <toast v-ref:toast></toast>
         <loading-toast v-ref:loading></loading-toast>
+    </div>
+
+    <div id="dialogContainer">
+        <dialog :show.sync="show" :title="title" :type="showType">
+            <p>{{text}}</p>
+            <p v-if="showType === 'confirm'">{{content}}</p>
+            <p v-if="showType === 'prompt'"><input type="text" v-model="content"/></p>
+        </dialog>
     </div>
 </div>
 

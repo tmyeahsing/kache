@@ -1,12 +1,6 @@
 'use strict'
 
-import {bitTo2} from './utils.js'
-import dialog from '../components/dialog/dialog.vue'
-
-Vue.transition('zoom', {
-    enterClass: 'zoomIn',
-    leaveClass: 'zoomOut'
-});
+import {bitTo2} from './../assets/js/utils.js'
 
 $.promiseAjax({
     url: 'https://api.leancloud.cn/1.1/classes/Order/' + UrlParams.id,
@@ -24,9 +18,6 @@ $.promiseAjax({
 }).then(function(data){
     new Vue({
         el: '#main_contain',
-        components: {
-            dialog: dialog
-        },
         data: {
             order: data,
             statusMap: OrderStatusMap,
@@ -36,8 +27,6 @@ $.promiseAjax({
             manUnitPrice: undefined,
             partsTotal: undefined,
             partsDesc: '',
-            incomeConfirmShown: false,
-            income: '',
             now: undefined
         },
         created(){
@@ -114,31 +103,34 @@ $.promiseAjax({
                 })
             },
             incomeConfirm(){
-                this.incomeConfirmShown = true;
-            }
-        },
-        events: {
-            'weui-dialog-confirm'(ev){
                 var self = this;
-                ToastHandler.showLoading();
-                $.promiseAjax({
-                    url: '/api/order/confirm_income',
-                    type: 'put',
-                    data: {
-                        order_object_id: UrlParams.id,
-                        income: self.income
+                DialogHandler.prompt('确认收款', '收款金额:', '', function(income){
+                    if(/[^\d]/.test(income)){
+                        DialogHandler.alert('操作失败', '请输入整数', function(){
+                            setTimeout(self.incomeConfirm, 0);
+                        });
+                        return;
                     }
-                }).then(function(data){
-                    ToastHandler.hideLoading();
-                    ToastHandler.showToast('操作成功');
-                    self.order.quotation = data.data.quotation;
-                    self.order.status = data.data.status;
-                    self.order.cashConfirming = false;
-                    self.incomeConfirmShown = false;
-                }).catch(function(err){
-                    ToastHandler.hideLoading();
-                    console.log(err)
-                });
+                    ToastHandler.showLoading('操作处理中...');
+                    $.promiseAjax({
+                        url: '/api/order/confirm_income',
+                        type: 'put',
+                        data: {
+                            order_object_id: UrlParams.id,
+                            income: income
+                        }
+                    }).then(function(data){
+                        ToastHandler.hideLoading();
+                        ToastHandler.showToast('操作成功');
+                        DialogHandler.hide();
+                        self.order.quotation = data.data.quotation;
+                        self.order.status = data.data.status;
+                        self.order.cashConfirming = false;
+                    }).catch(function(err){
+                        ToastHandler.hideLoading();
+                        DialogHandler.alert('操作失败', JSON.parse(err.responseText).message);
+                    });
+                })
             }
         },
         filters: {

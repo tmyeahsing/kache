@@ -212,6 +212,14 @@
         <toast v-ref:toast></toast>
         <loading-toast v-ref:loading></loading-toast>
     </div>
+
+    <div id="dialogContainer">
+        <dialog :show.sync="show" :title="title" :type="showType">
+            <p>{{text}}</p>
+            <p v-if="showType === 'confirm'">{{content}}</p>
+            <p v-if="showType === 'prompt'"><input type="text" v-model="content"/></p>
+        </dialog>
+    </div>
 </div>
 
 <div class="weui_loading_toast g_enter_loading">
